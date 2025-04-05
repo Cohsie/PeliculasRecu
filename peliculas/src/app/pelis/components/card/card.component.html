@@ -1,0 +1,9 @@
+<mat-card class="film-card" style="border: white 1px solid;">
+  <mat-card-header>
+    <mat-card-title></mat-card-title>
+    <mat-card-subtitle></mat-card-subtitle>
+  </mat-card-header>
+  <br>
+  <img mat-card-image [src]="film.poster_path ? 'https://image.tmdb.org/t/p/w500' + film.poster_path : 'assets/no-image.png'" [alt]="film.title">
+  <br>
+</mat-card>
