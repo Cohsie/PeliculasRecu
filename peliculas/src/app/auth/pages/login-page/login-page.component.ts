@@ -52,6 +52,13 @@ export class LoginPageComponent implements OnInit{
             width: '400px',
             data: { username }
           });
+
+          dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+              this.doLogin(username, result);
+            }
+          });
+
           }, 500);
 
         }else {//Este es el dialog que debe abrirse cuando user no existe. Debe devolver al campo de usuario
@@ -101,22 +108,19 @@ export class LoginPageComponent implements OnInit{
           next:(tokenResponse) => {
             console.log('Token recibido', tokenResponse);
             localStorage.setItem('requestToken', tokenResponse);
-          }
-        });
 
-        this.authService.getSessionId().subscribe({
-          next: (response) => {
-            console.log('Session ID obtenido:', response);
+            const backURL = encodeURIComponent('http://localhost:4200/pelis');
+            const redirectURL = `https://www.themoviedb.org/authenticate/${tokenResponse}?redirect_to=${backURL}`
 
-            const sessionId = response.session_id;
-            localStorage.setItem('sessionId', sessionId);
+            window.location.href = redirectURL;
+
           },
           error: (error) => {
-            console.error('Error al obtener el Session ID:', error);
+            console.error('Error al obtener el request token: ', error);
           }
         });
 
-        this.router.navigate([`/films`]);
+        this.router.navigate([`/pelis`]);
       } else if (RESPONSE.data?.valido === 0) {
         this.snackBar.open('Usuario inhabilitado', 'Cerrar', { duration: 5000 });
       } else if (RESPONSE.data?.valido === 1) {
@@ -126,6 +130,11 @@ export class LoginPageComponent implements OnInit{
       console.error('Error en el login:', error);
       this.snackBar.open('Error al conectar con el servidor', 'Cerrar', { duration: 5000 });
     }
+  }
+
+  //TODO: Necesito ponerme a entender esto
+  forgotPassword() {
+    this.valueChange.emit(true);
   }
 
 }

@@ -23,7 +23,7 @@ export class FavPageComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.sessionId && this.accountId) {
-      this.favService.getAllFavs(this.sessionId).subscribe((films: Film[]) => {
+      this.favService.getAllFavs(this.sessionId, this.accountId).subscribe((films: Film[]) => {
         this.films = films;
       });
     }

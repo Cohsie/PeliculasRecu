@@ -8,7 +8,10 @@ import { FavPageComponent } from './pelis/pages/fav-page/fav-page.component';
 import { FilmPageComponent } from './pelis/pages/film-page/film-page.component';
 import { SearchPageComponent } from './pelis/pages/search-page/search-page.component';
 import { ListPageComponent } from './pelis/pages/list-page/list-page.component';
-//import { UsuariosComponent } from './pelis/pages/usuarios/usuarios.component';
+import { UsuariosComponent } from './pelis/pages/usuarios/usuarios.component';
+import { SharedModule } from './shared/shared.module';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -17,7 +20,9 @@ import { ListPageComponent } from './pelis/pages/list-page/list-page.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    SharedModule,
+    BrowserAnimationsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

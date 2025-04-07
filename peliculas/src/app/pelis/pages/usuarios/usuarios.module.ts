@@ -15,6 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MaterialModule } from 'src/app/material/material.module';
+import { CrudMaterialModule } from 'src/app/modules/crud-material/crud-material.module';
 
 
 @NgModule({
@@ -27,14 +29,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
   imports: [
     CommonModule,
     UsuariosRoutingModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatTableModule,
     ReactiveFormsModule,
-    MatSelectModule,
-    MatIconModule,
-    MatPaginatorModule
+    MaterialModule,
+    CrudMaterialModule
   ]
 })
 export class UsuariosModule { }

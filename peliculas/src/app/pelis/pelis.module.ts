@@ -8,6 +8,7 @@ import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
 import { CardComponent } from './components/card/card.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
+import { UsuariosModule } from './pages/usuarios/usuarios.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
   imports: [
     CommonModule,
     PelisRoutingModule,
-    MaterialModule
-  ]
+    MaterialModule,
+    UsuariosModule
+  ],
 })
 export class PelisModule { }

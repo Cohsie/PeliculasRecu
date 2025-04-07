@@ -1,1 +1,26 @@
-<p>login-page works!</p>
+<mat-card class="example-card">
+  <mat-card-header>
+      <div class="logo-container">
+          <img src="../../../../assets/logo.png" alt="Logo MovieApp" class="logo">
+        </div>
+  </mat-card-header>
+  <mat-card-content>
+      <form class="example-form" [formGroup]="loginForm">
+          <div class="form-group">
+              <mat-form-field class="example-full-width">
+                  <input matInput class="form-control full-width-input" placeholder="Correo electrónico"
+                      formControlName="username" name="username" type="text" required>
+              </mat-form-field>
+          </div>
+          <mat-card-actions>
+              <button type="submit" mat-raised-button class="azulVeo" (click)="acceso()">Acceder</button>
+              <span class="spacer"></span>
+              <button type="button" mat-raised-button class="azulVeo" (click)="forgotPassword()">
+                  Olvidé mi contraseña
+              </button>
+          </mat-card-actions>
+      </form>
+      <!--<mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner> -->
+  </mat-card-content>
+  <!--<mat-error *ngIf="error">{{error}}</mat-error> -->
+</mat-card>

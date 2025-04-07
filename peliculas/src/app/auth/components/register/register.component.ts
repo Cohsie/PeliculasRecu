@@ -1,8 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
-
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -14,7 +12,7 @@ export class RegisterComponent {
 
   constructor(
     public dialogRef: MatDialogRef<RegisterComponent>,
-    //@Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any //Creo que es para meter los datos de la contraseña en este dialog
   ){}
 
   onNoClick(): void {
