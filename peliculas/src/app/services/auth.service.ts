@@ -28,7 +28,7 @@ export class AuthService {
     if(!token){
       return of (false);
     }
-    return this.http.post<ApiResponse>(`${URL_API}/comprobar_token.php`, {token}, {headers: this.commonService.headers})
+    return this.http.post<ApiResponse>(`${URL_API}/check_password.php`, {token}, {headers: this.commonService.headers})
       .pipe(
           map(response => {
             console.log('Respuesta del backend:', response);
@@ -46,7 +46,7 @@ export class AuthService {
       return of(false);
     }
     console.log(usuario);
-    return this.http.post<ApiResponse>(`${URL_API}/comprobar_usuario.php`, {usuario}, {headers: this.commonService.headers})
+    return this.http.post<ApiResponse>(`${URL_API}/check_user.php`, {usuario}, {headers: this.commonService.headers})
       .pipe(
         map(response => {
             console.log("Respuesta del backend:", response);
