@@ -71,24 +71,6 @@ export class AuthService {
   }
 
 
-  resetPassword(formularioCorreo: { email: string }) {
-    const body = JSON.stringify(formularioCorreo);
-    return this.http.post<ApiResponse>(`${URL_API}/olvidar_pwd.php`, body, {headers: this.commonService.headers});
-  }
-
-  checkPassToken(tokenPasswd: string) {
-
-    const body = JSON.stringify({ token: tokenPasswd });
-
-    return this.http.post<ApiResponse>(`${URL_API}/check_token_passwd.php`, body);
-  }
-
-  generateNewPass(data: any) {
-    const body = JSON.stringify(data);
-
-    return this.http.put<ApiResponse>(`${URL_API}/reset_pass.php`, body);
-  }
-
   //Para obtener el request token
   getRequestToken(): Observable<any> {
     const apiMovies = localStorage.getItem('api_movies');

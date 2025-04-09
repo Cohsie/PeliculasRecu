@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
+import { AddUserComponent } from './components/add-user/add-user.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { MaterialModule } from '../material/material.module';
     LoginPageComponent,
     AuthComponent,
     NoUserComponent,
-    RegisterComponent
+    RegisterComponent,
+    AddUserComponent
   ],
   imports: [
     CommonModule,

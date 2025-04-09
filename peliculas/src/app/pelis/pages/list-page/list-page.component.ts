@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { FilmService } from 'src/app/services/film.service';
 import { Film } from '../../interfaces/film.interface';
+import { MaterialModule } from 'src/app/material/material.module';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-list-page',

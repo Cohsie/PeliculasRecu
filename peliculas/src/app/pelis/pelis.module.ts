@@ -7,6 +7,7 @@ import { PelisRoutingModule } from './pelis-routing.module';
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
 import { CardComponent } from './components/card/card.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { ListPageComponent } from './pages/list-page/list-page.component';
 
 import { UsuariosModule } from './pages/usuarios/usuarios.module';
 
@@ -14,7 +15,8 @@ import { UsuariosModule } from './pages/usuarios/usuarios.module';
   declarations: [
     LayoutPageComponent,
     CardComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ListPageComponent
   ],
   imports: [
     CommonModule,

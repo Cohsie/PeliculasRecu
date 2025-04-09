@@ -9,6 +9,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RegisterComponent } from '../../components/register/register.component';
 import { NoUserComponent } from '../../components/no-user/no-user.component';
+import { AddUserComponent } from '../../components/add-user/add-user.component';
+import { Overlay } from '@angular/cdk/overlay';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { Usuario } from '../../../pelis/interfaces/usuario.interface';
+
 
 @Component({
   selector: 'app-login-page',
@@ -21,13 +27,18 @@ export class LoginPageComponent implements OnInit{
 
   loginForm: FormGroup = new FormGroup({});
 
+  dataSource: MatTableDataSource<Usuario> = new MatTableDataSource();
+
+
   constructor(
     private authService: AuthService,
     private router: Router,
     private cookieService: CookieService,
     private snackBar: MatSnackBar,
-    private commonService: CommonService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private overlay: Overlay,
+    private servicioUsuarios: UsuarioService,
+    private commonService: CommonService
   ){}
 
   ngOnInit(): void {
@@ -53,7 +64,7 @@ export class LoginPageComponent implements OnInit{
             data: { username }
           });
 
-          dialogRef.afterClosed().subscribe(result => {
+          dialogRef.afterClosed().subscribe(result => {//Después de cerrar este dialog tengo los datos del usuario y la contraseña(result)
             if (result) {
               this.doLogin(username, result);
             }
@@ -65,11 +76,26 @@ export class LoginPageComponent implements OnInit{
           const dialogRef = this.dialog.open(NoUserComponent, {
             width: '400px'
           });
-          this.loginForm.get('username')?.setValue('');
+          dialogRef.afterClosed().subscribe(() => {//Tras cerrar este dialog, como el user no existe vuelve al login con el usuario vacío
+            this.loginForm.get('username')?.setValue('');
+          });
+
         }
       }catch(error){
         console.error('Error al verificar el usuario:', error);
         this.snackBar.open('Error al conectar con el servidor', 'Cerrar', { duration: 5000 });
+      }
+    }
+  }
+
+  //Esto es temporal para poder añadir un usuario admin con la apiKey
+  async registro() {
+    const dialogRef = this.dialog.open(AddUserComponent, { width: '500px', scrollStrategy: this.overlay.scrollStrategies.noop() });
+    const RESP = await dialogRef.afterClosed().toPromise();
+    if (RESP) {
+      if (RESP.ok) {
+        this.servicioUsuarios.usuarios.push(RESP.data);
+        this.dataSource.data = this.servicioUsuarios.usuarios;
       }
     }
   }
@@ -88,11 +114,12 @@ export class LoginPageComponent implements OnInit{
 
       if (RESPONSE.data?.token) {
         localStorage.setItem('token', RESPONSE.data.token);
-        localStorage.setItem('usuario', RESPONSE.data.usuario ?? '');//Esto es el correo
+        localStorage.setItem('usuario', RESPONSE.data.usuario ?? '');//Esto es el correo. En todos los campos usuarios siempre va a haber un email porque ese campo tiene Validators.email
         localStorage.setItem('nombre_publico', RESPONSE.data.nombre_publico ?? '');
         //Dejo estas dos porque parece que se usan en el backend
-        localStorage.setItem('ultimaOpcion', RESPONSE.data.opcion ?? '');
-        localStorage.setItem('ultimoGrupo', RESPONSE.data.grupo ?? '');
+        //!! PUEDE QUE ESTO NO HAYA QUE PONERLO
+        // localStorage.setItem('ultimaOpcion', RESPONSE.data.opcion ?? '');
+        // localStorage.setItem('ultimoGrupo', RESPONSE.data.grupo ?? '');
 
         localStorage.setItem('id_usuario', RESPONSE.data.id_usuario ?? '');
         localStorage.setItem('id_rol', RESPONSE.data.id_rol ?? '');
@@ -103,23 +130,26 @@ export class LoginPageComponent implements OnInit{
           Authorization: `Bearer ${RESPONSE.data.token}`
         });
 
-        //Obtener el request_token
-        this.authService.getRequestToken().subscribe({
-          next:(tokenResponse) => {
-            console.log('Token recibido', tokenResponse);
-            localStorage.setItem('requestToken', tokenResponse);
+        if(!localStorage.getItem('api_movies')){
+          this.snackBar.open('Este usuario no tiene datos asignados a una cuenta de TMDB', 'Cerrar', {duration: 5000})
+        } else{
+          //Obtener el request_token
+          this.authService.getRequestToken().subscribe({
+            next:(tokenResponse) => {
+              console.log('Token recibido', tokenResponse);
+              localStorage.setItem('requestToken', tokenResponse);
 
-            const backURL = encodeURIComponent('http://localhost:4200/pelis');
-            const redirectURL = `https://www.themoviedb.org/authenticate/${tokenResponse}?redirect_to=${backURL}`
+              const backURL = encodeURIComponent('http://localhost:4200/pelis');
+              const redirectURL = `https://www.themoviedb.org/authenticate/${tokenResponse}?redirect_to=${backURL}`
 
-            window.location.href = redirectURL;
+              window.location.href = redirectURL;
 
-          },
-          error: (error) => {
-            console.error('Error al obtener el request token: ', error);
-          }
-        });
-
+            },
+            error: (error) => {
+              console.error('Error al obtener el request token: ', error);
+            }
+          });
+        }
         this.router.navigate([`/pelis`]);
       } else if (RESPONSE.data?.valido === 0) {
         this.snackBar.open('Usuario inhabilitado', 'Cerrar', { duration: 5000 });
@@ -130,11 +160,6 @@ export class LoginPageComponent implements OnInit{
       console.error('Error en el login:', error);
       this.snackBar.open('Error al conectar con el servidor', 'Cerrar', { duration: 5000 });
     }
-  }
-
-  //TODO: Necesito ponerme a entender esto
-  forgotPassword() {
-    this.valueChange.emit(true);
   }
 
 }

@@ -1,1 +1,7 @@
-<p>list-page works!</p>
+<h1>Películas con mejor valoración</h1>
+
+<mat-divider></mat-divider>
+
+<div *ngFor="let film of films" class="col-12 sm:col-4 md:col-3 xl:col-2">
+  <film-card [film]="film"></film-card>
+</div>
