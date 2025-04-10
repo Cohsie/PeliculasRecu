@@ -134,7 +134,7 @@ export class LoginPageComponent implements OnInit{
           this.snackBar.open('Este usuario no tiene datos asignados a una cuenta de TMDB', 'Cerrar', {duration: 5000})
         } else{
           //Obtener el request_token
-          this.authService.getRequestToken().subscribe({
+          this.authService.getRequestToken().subscribe({//TODO: Creo que hay que ponerlo en el list para cubrir el caso de que el usuario abra la app en otro pc teniendo el token_session
             next:(tokenResponse) => {
               console.log('Token recibido', tokenResponse);
               localStorage.setItem('requestToken', tokenResponse);

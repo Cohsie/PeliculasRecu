@@ -59,8 +59,6 @@ export class AuthService {
       );
   }
 
-
-
   doLogout() {
     const body = new FormData();
     const usuario = localStorage.getItem('usuario') || '';
