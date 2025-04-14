@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { FilmService } from 'src/app/services/film.service';
 import { Film } from '../../interfaces/film.interface';
+import { Router } from '@angular/router';
 import { MaterialModule } from 'src/app/material/material.module';
 import { MatDividerModule } from '@angular/material/divider';
 
@@ -14,13 +15,19 @@ import { MatDividerModule } from '@angular/material/divider';
 export class ListPageComponent implements OnInit {
 
   films: Film[] = [];
-
-  constructor(private authService: AuthService, private filmService: FilmService) {}
+  constructor(private authService: AuthService, private filmService: FilmService, private router: Router) {}
 
   ngOnInit(): void{
     //Como después de validar el token manualmente se nos redirige a esta ruta es aquí donde he decidido obtener el sessionId
     const response_token = localStorage.getItem('requestToken');
     const sessionId = localStorage.getItem('sessionId');
+
+    setTimeout(() => {
+      this.router.navigate([], {
+        queryParams: {},
+        replaceUrl: true
+      });
+    }, 0);
 
     if(response_token && !sessionId){
       this.authService.getSessionId().subscribe({

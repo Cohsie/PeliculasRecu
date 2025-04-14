@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { URL_API } from 'src/environments/environments';
+import { URL_API } from '../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
-import { Rol } from '../films/interfaces/rol';
+import { Rol } from '../pelis/interfaces/rol.interface';
 import { Observable } from 'rxjs';
 import { CommonService } from './common.service';
 import { ApiResponse } from '../auth/interfaces/api-response';

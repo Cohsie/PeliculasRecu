@@ -64,7 +64,7 @@ export class UsuarioService {
 
   //Métodos que se usarán para mostrar las películas utilizando la API key del usuario
   getUsuarioActual(): Usuario | null {
-    const idUsuario = this.cookieService.get('id_usuario'); // Obtener el ID del usuario de una cookie
+    const idUsuario = this.cookieService.get('id_usuario'); // Obtener el ID del usuario de una cookie. Debería ser localStorage
     if (!idUsuario) {
       return null;
     }

@@ -134,13 +134,14 @@ export class LoginPageComponent implements OnInit{
           this.snackBar.open('Este usuario no tiene datos asignados a una cuenta de TMDB', 'Cerrar', {duration: 5000})
         } else{
           //Obtener el request_token
-          this.authService.getRequestToken().subscribe({//TODO: Creo que hay que ponerlo en el list para cubrir el caso de que el usuario abra la app en otro pc teniendo el token_session
+          this.authService.getRequestToken().subscribe({
             next:(tokenResponse) => {
               console.log('Token recibido', tokenResponse);
-              localStorage.setItem('requestToken', tokenResponse);
+              const token = tokenResponse.request_token;
+              //localStorage.setItem('requestToken', tokenResponse);
 
               const backURL = encodeURIComponent('http://localhost:4200/pelis');
-              const redirectURL = `https://www.themoviedb.org/authenticate/${tokenResponse}?redirect_to=${backURL}`
+              const redirectURL = `https://www.themoviedb.org/authenticate/${token}?redirect_to=${backURL}`
 
               window.location.href = redirectURL;
 
@@ -150,7 +151,7 @@ export class LoginPageComponent implements OnInit{
             }
           });
         }
-        this.router.navigate([`/pelis`]);
+        //this.router.navigate([`/pelis`]);//TODO: Creo que esto hay que quitarlo
       } else if (RESPONSE.data?.valido === 0) {
         this.snackBar.open('Usuario inhabilitado', 'Cerrar', { duration: 5000 });
       } else if (RESPONSE.data?.valido === 1) {

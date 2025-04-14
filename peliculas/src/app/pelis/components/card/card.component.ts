@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Film } from '../../interfaces/film.interface';
 
 @Component({
-  selector: 'app-card',
+  selector: 'film-card',
   templateUrl: './card.component.html',
   styles: [
   ]

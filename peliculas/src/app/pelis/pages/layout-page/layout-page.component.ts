@@ -23,19 +23,21 @@ export class LayoutPageComponent implements OnInit{
   ngOnInit(): void {
       if(this.rol == '1'){
         this.opcionesSidebar.push(
-          {label: 'Gestión de usuarios', url: './usuarios'}
+          {label: 'Gestión de usuarios', icon:'group', url: './usuarios'}
         );
       }
   }
 
-
   public opcionesSidebar =[
-    { label:'Películas más valoradas', url: './list' },
-    { label: 'Buscador de películas', url: './search' },
-    { label: 'Películas favoritas', url: './favs' }
+    { label: 'Películas más valoradas', icon:'star', url: './list' },
+    { label: 'Buscador de películas', icon:'search', url: './search' },
+    { label: 'Películas favoritas', icon:'star', url: './favs' }
   ]
 
-
+  onLogout():void {
+    this.authService.doLogout();
+    this.router.navigate(['/auth']);
+  }
 
 
 }

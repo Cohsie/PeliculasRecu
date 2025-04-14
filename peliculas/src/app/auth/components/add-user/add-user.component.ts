@@ -38,6 +38,7 @@ export class AddUserComponent implements OnInit {
   async getRoles() {
     try {
       const RESPONSE = await this.servicioRoles.getAllRoles().toPromise();
+      console.log('Obtención de roles: ', RESPONSE);
       if (RESPONSE && RESPONSE.ok) {
         this.roles = RESPONSE.data as Rol[];
       }

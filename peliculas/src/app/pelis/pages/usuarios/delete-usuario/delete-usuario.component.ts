@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Usuario } from 'src/app/films/interfaces/usuario.interface';
-import { UsuarioService } from 'src/app/films/services/usuario.service';
+import { Usuario } from 'src/app/pelis/interfaces/usuario.interface';
+import { UsuarioService } from 'src/app/services/usuario.service';
 @Component({
   selector: 'app-delete-usuario',
   templateUrl: './delete-usuario.component.html',
@@ -19,13 +19,17 @@ export class DeleteUsuarioComponent {
 //No he puesto ngOnInit porque parece que no hace falta
 
 async deleteUser() {
-
-  const RESP = await this.servicioUsuario.deleteUsuario(this.usuario).toPromise();
-  if (RESP.ok) {
-    this.snackBar.open(RESP.message, 'Cerrar', { duration: 5000 });
-    this.dialogRef.close({ok: RESP.ok, data: RESP.data});
-  } else {
-    this.snackBar.open(RESP.message, 'Cerrar', { duration: 5000 });
+  try {
+    const RESP = await this.servicioUsuario.deleteUsuario(this.usuario).toPromise();
+    if (RESP && RESP.message) {
+      this.snackBar.open(RESP.message, 'Cerrar', { duration: 5000 });
+      this.dialogRef.close({ ok: RESP.ok, data: RESP.data });
+    } else {
+      this.snackBar.open('Hubo un problema al eliminar al usuario.', 'Cerrar',  { duration: 5000 });
+    }
+  } catch (error) {
+    this.snackBar.open('Error al realizar la solicitud. Intenta más tarde.', 'Cerrar',  { duration: 5000 });
+    console.error(error);
   }
 }
 
