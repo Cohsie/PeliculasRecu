@@ -23,7 +23,7 @@ export class FilmService {
       categoryIds: number[] = []
     ): Observable<Film[]> {
 
-        const apiKey = this.usuarioService.getApiKey();//Creo una constante apiKey
+        const apiKey = localStorage.getItem('api_movies') || '';
         const params = new HttpParams()
             .set('api_key', apiKey) // Aquí uso la constante que obtiene la API gracias al método
             .set('page', '1')
@@ -64,13 +64,13 @@ export class FilmService {
     }
 
     getDetailsById(filmId: number): Observable<Film> {
-      const apiKey = this.usuarioService.getApiKey();//Creo una constante apiKey
+      const apiKey = localStorage.getItem('api_movies') || '';
       return this.http.get<any>(`https://api.themoviedb.org/3/movie/${filmId}?api_key=${apiKey}&language=es`)
     }
 
     //Método para acceder a los detalles de una película seleccionada
     getFilmDetails(title: string): Observable<Film> {
-      const apiKey = this.usuarioService.getApiKey();//Creo una constante apiKey
+      const apiKey = localStorage.getItem('api_movies') || '';
       const url = `${environments.apiUrl}?api_key${apiKey}&query=${title}&language=es-ES`;
 
       return this.http.get<any>(url)
@@ -79,7 +79,10 @@ export class FilmService {
 
     //Método para obtener las películas de la ruta /list
     getTopRatedFilms(): Observable<Film[]> {
-      const apiKey = this.usuarioService.getApiKey();//Creo una constante apiKey
+      const apiKey = localStorage.getItem('api_movies') || '';
+
+      //const apiKey = this.usuarioService.getApiKey();//Creo una constante apiKey
+      //console.log('API Key usada:', this.usuarioService.getApiKey());
 
       const params = new HttpParams()
         .set('api_key', apiKey)
@@ -93,7 +96,7 @@ export class FilmService {
 
     //Método para obtener todas las categiorías de películas para el buscador de triple filtro
     getCategories(): Observable<{id:number, name:string}[]>{
-      const apiKey = this.usuarioService.getApiKey();//Creo una constante apiKey
+      const apiKey = localStorage.getItem('api_movies') || '';
       const url = `${this.urlBase}/genre/movie/list?api_key=${apiKey}&language=es-ES`;
 
       return this.http.get<any>(url)

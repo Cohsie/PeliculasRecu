@@ -63,7 +63,6 @@ export class AuthService {
     const body = new FormData();
     const usuario = localStorage.getItem('usuario') || '';
     body.append('user', usuario);
-    this.cookieService.deleteAll();
     localStorage.clear();
     return this.http.post(`${URL_API}/logout.php`, body);
   }
@@ -80,9 +79,10 @@ export class AuthService {
   //Para obtener el session id una vez obtenido el request token
   getSessionId(): Observable<any>{
     const request_token = localStorage.getItem('requestToken');
+    console.log(localStorage.getItem('requestToken'));
     const api_movies = localStorage.getItem('api_movies');
     return this.http.post(
-      `https//api.themoviedb.org/3/authentication/session/new?api_key=${api_movies}`,
+      `https://api.themoviedb.org/3/authentication/session/new?api_key=${api_movies}`,
       { request_token }
     )
   }

@@ -1,0 +1,9 @@
+{
+    "workbench.colorCustomizations": {
+      "titleBar.activeBackground": "#002050",  // Barra de título activa (naranja)
+      "titleBar.activeForeground": "#FFFFFF",  // Color de texto en la barra de título
+      "sideBar.background": "#002050",         // Barra lateral izquierda (naranja)
+      "sideBar.foreground": "#FFFFFF"          // Color del texto en la barra lateral
+    }
+  }
+  

@@ -23,7 +23,9 @@ export class SearchPageComponent {
     // Cargar géneros desde el servicio
     this.filmService.getCategories().subscribe(categories => {
       this.genres = categories;
+      console.log('Géneros cargados:', categories);  // Verifica los géneros
     });
+
   }
 
   // Buscar películas por título y géneros

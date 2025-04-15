@@ -1,0 +1,20 @@
+En el components del auth va el dialog de registrar usuario (de momento)
+
+fav-page -> para mostrar los favoritos de un usuario
+
+film-page -> Para mostrar una sola película con información ampliada
+
+
+en card.component.html tenía varios errores pero todos se solucionaron creando material.module.ts e 
+importándolo en pelis.module.ts
+
+Hay que controlar la posibilidad de que el usuario tenga token pero que no esté el session_id
+
+
+
+mat-divider -> Crea una línea divisoria que se encarga de espaciar el contenido
+
+El token de acceso se guarda en la base de datos. El caso de que, al usar otro pc y que el usuario 
+tenga token pero no session_id creo que ya está controlado
+
+el sidenav debe encontrarse en el layout-page de pelis

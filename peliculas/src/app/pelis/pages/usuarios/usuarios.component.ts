@@ -34,7 +34,7 @@ export class UsuariosComponent implements OnInit {
 
     console.log(RESPONSE)
 
-    if(RESPONSE && RESPONSE.ok){//TODO: tengo que ver por qué a mí me da error con el RESPONSE.ok solo y a Juanca no
+    if(RESPONSE && RESPONSE.ok){
       this.servicioUsuarios.usuarios = RESPONSE.data as Usuario[];
       this.dataSource.data = this.servicioUsuarios.usuarios;
     }

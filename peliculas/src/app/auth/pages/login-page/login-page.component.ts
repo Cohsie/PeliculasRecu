@@ -113,6 +113,7 @@ export class LoginPageComponent implements OnInit{
       }
 
       if (RESPONSE.data?.token) {
+        console.log(RESPONSE.data);
         localStorage.setItem('token', RESPONSE.data.token);
         localStorage.setItem('usuario', RESPONSE.data.usuario ?? '');//Esto es el correo. En todos los campos usuarios siempre va a haber un email porque ese campo tiene Validators.email
         localStorage.setItem('nombre_publico', RESPONSE.data.nombre_publico ?? '');
@@ -122,6 +123,7 @@ export class LoginPageComponent implements OnInit{
         // localStorage.setItem('ultimoGrupo', RESPONSE.data.grupo ?? '');
 
         localStorage.setItem('id_usuario', RESPONSE.data.id_usuario ?? '');
+        console.log(localStorage.getItem('id_usuario'));
         localStorage.setItem('id_rol', RESPONSE.data.id_rol ?? '');
         localStorage.setItem('api_movies', RESPONSE.data.api_movies ?? '');
         localStorage.setItem('account_id', RESPONSE.data.account_id ?? '');
@@ -138,7 +140,7 @@ export class LoginPageComponent implements OnInit{
             next:(tokenResponse) => {
               console.log('Token recibido', tokenResponse);
               const token = tokenResponse.request_token;
-              //localStorage.setItem('requestToken', tokenResponse);
+              localStorage.setItem('requestToken', token);
 
               const backURL = encodeURIComponent('http://localhost:4200/pelis');
               const redirectURL = `https://www.themoviedb.org/authenticate/${token}?redirect_to=${backURL}`
@@ -161,6 +163,7 @@ export class LoginPageComponent implements OnInit{
       console.error('Error en el login:', error);
       this.snackBar.open('Error al conectar con el servidor', 'Cerrar', { duration: 5000 });
     }
+    console.log()
   }
 
 }

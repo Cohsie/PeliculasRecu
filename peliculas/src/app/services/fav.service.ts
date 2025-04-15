@@ -16,7 +16,7 @@ export class FavService {
 
     // Obtener todas las películas favoritas de un usuario desde la API de TMDB
     getAllFavs(sessionId: string, accountId: string): Observable<Film[]> {//Aquí no hace falta un filmId
-      const apiKey = this.usuarioService.getApiKey();
+      const apiKey = localStorage.getItem('api_movies') || '';
         return this.http.get<{ results: any[] }>(
             `https://api.themoviedb.org/3/account/${accountId}/favorite/movies?api_key=${apiKey}&session_id=${sessionId}&language=es`
         ).pipe(
@@ -26,7 +26,7 @@ export class FavService {
 
     // Añadir una película a favoritos en TMDB
     addFavorite(sessionId: string, accountId: string, filmId: number): Observable<any> {
-      const apiKey = this.usuarioService.getApiKey();
+      const apiKey = localStorage.getItem('api_movies') || '';
         return this.http.post(
             `https://api.themoviedb.org/3/account/${accountId}/favorite?api_key=${apiKey}&session_id=${sessionId}`,
             {
@@ -44,7 +44,7 @@ export class FavService {
 
     // Eliminar una película de favoritos en TMDB
     removeFavorite(sessionId: string, accountId: string, filmId: number): Observable<any> {
-      const apiKey = this.usuarioService.getApiKey();
+      const apiKey = localStorage.getItem('api_movies') || '';
         return this.http.post(
             `https://api.themoviedb.org/3/account/${accountId}/favorite?api_key=${apiKey}&session_id=${sessionId}`,
             {

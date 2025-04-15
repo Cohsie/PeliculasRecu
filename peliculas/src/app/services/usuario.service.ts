@@ -64,18 +64,22 @@ export class UsuarioService {
 
   //Métodos que se usarán para mostrar las películas utilizando la API key del usuario
   getUsuarioActual(): Usuario | null {
-    const idUsuario = this.cookieService.get('id_usuario'); // Obtener el ID del usuario de una cookie. Debería ser localStorage
+    console.log('Usuarios cargados:', this.usuarios);
+
+    const idUsuario = localStorage.getItem('id_usuario');
+    console.log('LocalStorage id_usuario:', idUsuario);
     if (!idUsuario) {
       return null;
     }
-    return this.usuarios.find(usuario => String(usuario.id_usuario) === idUsuario) || null;
+    return this.usuarios.find(usuario => usuario.id_usuario.toString() === idUsuario) || null;
   }
 
-  getApiKey(): string {
-    const usuarioActual = this.getUsuarioActual();
-    if (!usuarioActual) {
-      throw new Error('Usuario actual no definido');
-    }
-    return usuarioActual.api_movies; // Retornar la API key del usuario actual
-  }
+  // getApiKey(): string {
+  //   console.log(this.getUsuarioActual);
+  //   const usuarioActual = this.getUsuarioActual();
+  //   if (!usuarioActual) {
+  //     throw new Error('Usuario actual no definido');
+  //   }
+  //   return usuarioActual.api_movies; // Retornar la API key del usuario actual
+  // }
 }
