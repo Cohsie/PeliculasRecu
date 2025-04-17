@@ -12,7 +12,7 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
 })
 export class FavPageComponent implements OnInit {
   films: Film[] = [];
-  private sessionId: string | null = localStorage.getItem('session_id');//Está ya gestionado (queda ver si tira bien)
+  private sessionId: string | null = localStorage.getItem('sessionId');//Está ya gestionado (queda ver si tira bien)
   private accountId: string | null = localStorage.getItem('account_id');
 
   constructor(

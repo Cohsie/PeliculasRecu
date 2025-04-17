@@ -54,6 +54,7 @@ export class ListPageComponent implements OnInit {
         console.error('Error al cargar los usuarios:', error);
       }
     });
+    console.log(localStorage.getItem('sessionId'));
   }
 
   // Método para cargar las películas

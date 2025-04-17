@@ -5,36 +5,55 @@ import { FilmService } from 'src/app/services/film.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-search-page',
   templateUrl: './search-page.component.html',
   styles: []
 })
 export class SearchPageComponent {
-  constructor(private filmService: FilmService, private snackBar: MatSnackBar) {}
+  constructor(private filmService: FilmService, private snackBar: MatSnackBar, private authService: AuthService) {}
   public searchInput = new FormControl('');
   public films: Film[] = [];
   public selectedFilm?: Film;
   public genres: {id: number, name: string}[] = [];
   public selectedGenres: number[] = [];
   public favoriteFilter: 'SI' | 'NO' | 'TODAS' = 'TODAS';
-  private sessionId: string = localStorage.getItem('session_id') ?? '';//Está ya gestionado (queda ver si tira bien)
   private accountId: string = localStorage.getItem('account_id') ?? '';
+  private sessionId: string = localStorage.getItem('sessionId') ?? '';
   //TODO: Apuntes para entender completamente esto
 
 
   ngOnInit(): void {
+    const response_token = localStorage.getItem('requestToken');
+    const sessionId = localStorage.getItem('sessionId');
     // Cargar géneros desde el servicio
     this.filmService.getCategories().subscribe(categories => {
       this.genres = categories;
       console.log('Géneros cargados:', categories);  // Verifica los géneros
     });
 
+    // Si no tenemos sessionId, lo obtenemos
+    if (response_token && !sessionId) {
+      this.authService.getSessionId().subscribe({
+        next: (response) => {
+          console.log('Session ID obtenido:', response);
+          const sessionId = response.session_id;
+          localStorage.setItem('sessionId', sessionId);
+        },
+        error: (error) => {
+          console.error('Error al obtener el Session ID:', error);
+        }
+      });
+    }
+
   }
 
   public searchFilms(): void {
+    //const sessionId = localStorage.getItem('session_id')
     const value: string = this.searchInput.value || '';
-    this.filmService.findFilms(value, this.sessionId, this.accountId, 'TODAS', this.selectedGenres)
+    console.log(localStorage.getItem('sessionId'));
+    this.filmService.findFilms(value, this.sessionId, this.accountId, this.favoriteFilter, this.selectedGenres)
       .subscribe({
         next: (films) => {
           this.films = films;

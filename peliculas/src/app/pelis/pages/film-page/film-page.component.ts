@@ -18,7 +18,7 @@ export class FilmPageComponent implements OnInit {
   public film?: Film;
   public account_id = localStorage.getItem('account_id');
   //public userId = localStorage.getItem('id_usuario');
-  public sessionId = localStorage.getItem('session_id');
+  public sessionId = localStorage.getItem('sessionId');
 
 
 
@@ -61,8 +61,8 @@ export class FilmPageComponent implements OnInit {
 
           if (Array.isArray(favorites)) {
             const isFavorite = favorites.indexOf(filmId) !== -1;
-            console.log("¿Es favorito?", isFavorite);
             this.isFavorite = isFavorite;
+            console.log("¿Es favorito?", isFavorite);
           }
         },
         error => {
@@ -73,6 +73,10 @@ export class FilmPageComponent implements OnInit {
   }
 
   addToFavorites(): void {
+    console.log('Account ID:', this.account_id);
+    console.log('Film:', this.film);
+    console.log('Session ID:', this.sessionId);
+
     if (this.account_id && this.film && this.sessionId) {
       const filmId = this.film.id;
       const filmTitle = this.film.title;
@@ -81,8 +85,8 @@ export class FilmPageComponent implements OnInit {
         () => {
           this.isFavorite = true;
           console.log('Película añadida a favoritos');
-          this.checkIfFavorite(filmId);
           this.showSnackbar(`${filmTitle} ha sido añadida a favoritos`);
+          this.checkIfFavorite(filmId);
         },
         error => {
           console.error('Error al añadir a favoritos:', error);
