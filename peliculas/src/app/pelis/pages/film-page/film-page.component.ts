@@ -9,7 +9,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 
-
 @Component({
   selector: 'app-films-page',
   templateUrl: './film-page.component.html',
@@ -72,7 +71,6 @@ export class FilmPageComponent implements OnInit {
       );
     }
   }
-
 
   addToFavorites(): void {
     if (this.account_id && this.film && this.sessionId) {

@@ -17,6 +17,7 @@ export class FilmService {
 
     findFilms(
       query: string,
+      //sessionId = localStorage.getItem('sessionId'),//TODO: aquí darle valor a sessionId y accountId
       sessionId: string,
       accountId: string,
       favoriteFilter: 'SI' | 'NO' | 'TODAS' = 'TODAS',
@@ -34,8 +35,8 @@ export class FilmService {
             return this.http.get<{ results: Film[] }>(environments.apiUrl, { params }).pipe(
                 map(response => response.results || []),//de Film solo results
 
-                switchMap(films =>
-                  this.favService.getAllFavs(sessionId, accountId).pipe(
+                switchMap(films =>            //TODO: Este cambio lo ha hecho copilot. Ver por qué.
+                  this.favService.getAllFavs(sessionId || '', accountId).pipe(
                     map(favorites => {//De los favoritos reduce
                       const favoriteIds = favorites.map(f => f.id);
 

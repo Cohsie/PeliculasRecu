@@ -101,7 +101,6 @@ export class LoginPageComponent implements OnInit{
   }
 
 
-  //TODO: Tengo que controlar el caso en el que el usuario tenga token pero no un session_id
   async doLogin(username: string, password: string){
     try {
       const data = { username, password };
@@ -112,18 +111,13 @@ export class LoginPageComponent implements OnInit{
         return;
       }
 
-      if (RESPONSE.data?.token) {
+      if (RESPONSE.data?.token) {//Si se ha obtenido el token...
         console.log(RESPONSE.data);
         localStorage.setItem('token', RESPONSE.data.token);
         localStorage.setItem('usuario', RESPONSE.data.usuario ?? '');//Esto es el correo. En todos los campos usuarios siempre va a haber un email porque ese campo tiene Validators.email
         localStorage.setItem('nombre_publico', RESPONSE.data.nombre_publico ?? '');
-        //Dejo estas dos porque parece que se usan en el backend
-        //!! PUEDE QUE ESTO NO HAYA QUE PONERLO
-        // localStorage.setItem('ultimaOpcion', RESPONSE.data.opcion ?? '');
-        // localStorage.setItem('ultimoGrupo', RESPONSE.data.grupo ?? '');
-
         localStorage.setItem('id_usuario', RESPONSE.data.id_usuario ?? '');
-        console.log(localStorage.getItem('id_usuario'));
+        //console.log(localStorage.getItem('id_usuario'));
         localStorage.setItem('id_rol', RESPONSE.data.id_rol ?? '');
         localStorage.setItem('api_movies', RESPONSE.data.api_movies ?? '');
         localStorage.setItem('account_id', RESPONSE.data.account_id ?? '');
@@ -154,16 +148,16 @@ export class LoginPageComponent implements OnInit{
           });
         }
         //this.router.navigate([`/pelis`]);//TODO: Creo que esto hay que quitarlo
-      } else if (RESPONSE.data?.valido === 0) {
+      } else if (RESPONSE.data?.valido === 0) {//Si no se ha obtenido el token y el usuario no es válido...
         this.snackBar.open('Usuario inhabilitado', 'Cerrar', { duration: 5000 });
-      } else if (RESPONSE.data?.valido === 1) {
+      } else if (RESPONSE.data?.valido === 1) {//Si no se ha obtenido el token y el usuario es válido...
         this.snackBar.open('Usuario o contraseña incorrectas', 'Cerrar', { duration: 5000 });
       }
     } catch (error) {
       console.error('Error en el login:', error);
       this.snackBar.open('Error al conectar con el servidor', 'Cerrar', { duration: 5000 });
     }
-    console.log()
+    //console.log()
   }
 
 }

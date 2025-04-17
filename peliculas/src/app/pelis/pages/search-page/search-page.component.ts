@@ -3,21 +3,25 @@ import { FormControl } from '@angular/forms';
 import { Film } from '../../interfaces/film.interface';
 import { FilmService } from 'src/app/services/film.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-
+import { HttpErrorResponse } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-search-page',
   templateUrl: './search-page.component.html',
   styles: []
 })
 export class SearchPageComponent {
+  constructor(private filmService: FilmService, private snackBar: MatSnackBar) {}
   public searchInput = new FormControl('');
   public films: Film[] = [];
   public selectedFilm?: Film;
   public genres: {id: number, name: string}[] = [];
   public selectedGenres: number[] = [];
   public favoriteFilter: 'SI' | 'NO' | 'TODAS' = 'TODAS';
+  private sessionId: string = localStorage.getItem('session_id') ?? '';//Está ya gestionado (queda ver si tira bien)
+  private accountId: string = localStorage.getItem('account_id') ?? '';
+  //TODO: Apuntes para entender completamente esto
 
-  constructor(private filmService: FilmService) {}
 
   ngOnInit(): void {
     // Cargar géneros desde el servicio
@@ -28,15 +32,24 @@ export class SearchPageComponent {
 
   }
 
-  // Buscar películas por título y géneros
   public searchFilms(): void {
     const value: string = this.searchInput.value || '';
-    this.filmService.findFilms(value, 'sessionId', 'accountId', 'TODAS', this.selectedGenres)
-      .subscribe(films => {
-        this.films = films;
-        console.log('Películas encontradas:', films);
+    this.filmService.findFilms(value, this.sessionId, this.accountId, 'TODAS', this.selectedGenres)
+      .subscribe({
+        next: (films) => {
+          this.films = films;
+          console.log('Películas encontradas:', films);
+        },
+        error: (err: HttpErrorResponse) => {
+          console.error('Error al buscar películas:', err);
+          this.films = [];
+          this.snackBar.open('Error al cargar las películas. Intenta de nuevo más tarde.', 'Cerrar', {
+            duration: 5000,
+          });
+        }
       });
   }
+
 
   // Manejar la selección de una opción del autocompletado
   public onSelectedOption(event: MatAutocompleteSelectedEvent): void {

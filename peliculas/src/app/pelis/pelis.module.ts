@@ -10,6 +10,8 @@ import { CardComponent } from './components/card/card.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { ListPageComponent } from './pages/list-page/list-page.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { FavPageComponent } from './pages/fav-page/fav-page.component';
+import { FilmPageComponent } from './pages/film-page/film-page.component';
 
 import { UsuariosModule } from './pages/usuarios/usuarios.module';
 
@@ -19,7 +21,9 @@ import { UsuariosModule } from './pages/usuarios/usuarios.module';
     CardComponent,
     ConfirmDialogComponent,
     ListPageComponent,
-    SearchPageComponent
+    SearchPageComponent,
+    FavPageComponent,
+    FilmPageComponent
   ],
   imports: [
     CommonModule,

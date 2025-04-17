@@ -1,1 +1,11 @@
-<p>fav-page works!</p>
+<!-- fav-page.component.html -->
+<div *ngIf="films.length === 0" class="no-favs">
+  No hay películas en favoritos.
+</div>
+
+<div class="films-container">
+  <mat-card *ngFor="let film of films" class="col-12 sm:col-4 md:col-3 xl:col-2">
+    <film-card [film]="film"></film-card>
+  </mat-card>
+</div>
+
