@@ -17,52 +17,61 @@ export class FilmService {
 
     findFilms(
       query: string,
-      //sessionId = localStorage.getItem('sessionId'),//TODO: aquí darle valor a sessionId y accountId
       sessionId: string,
       accountId: string,
       favoriteFilter: 'SI' | 'NO' | 'TODAS' = 'TODAS',
-      categoryIds: number[] = []
+      selectedGenres: number[] = [],//Esto sí que debe estar para poder pillar los géneros seleccionados
     ): Observable<Film[]> {
 
-        const apiKey = localStorage.getItem('api_movies') || '';
-        const params = new HttpParams()
-            .set('api_key', apiKey) // Aquí uso la constante que obtiene la API gracias al método
-            .set('page', '1')
-            .set('language', 'es-ES')
-            .set('query', query)
-            .set('include_adult', 'true');
-                                      //Queremos obtener unalista de películas
-            return this.http.get<{ results: Film[] }>(environments.apiUrl, { params }).pipe(
-                map(response => response.results || []),//de Film solo results
+      const apiKey = localStorage.getItem('api_movies') || '';
+      const params = new HttpParams()
+        .set('api_key', apiKey)
+        .set('page', '1')
+        .set('language', 'es-ES')
+        .set('query', query)
+        .set('include_adult', 'true');
 
-                switchMap(films =>            //TODO: Este cambio lo ha hecho copilot. Ver por qué.
-                  this.favService.getAllFavs(sessionId || '', accountId).pipe(
-                    map(favorites => {//De los favoritos reduce
-                      const favoriteIds = favorites.map(f => f.id);
+      return this.http.get<{ results: Film[] }>(environments.apiUrl, { params }).pipe(
+        map(response => response.results || []),
+        switchMap(films =>
+          this.favService.getAllFavs(sessionId, accountId).pipe(
+            map(favorites => {
+              const favoriteIds = favorites.map(f => f.id);
+                                    //favorites es el array de favoritas. f recorre el array y extrae el id
+              let marked = films.map(film => {//transforma lo obtenido con switchMap para agregarle la propiedad isFavorite
+                return {
+                  ...film, //Creo una copia de cada objeto film
+                  isFavorite: favoriteIds.includes(film.id), //y le agrego la propiedad isFavorite
+                };
+              });
 
-                      let marked = films.map(film => ({
-                        ...film, isFavorite: favoriteIds.includes(film.id)
-                      }));
+              console.log('Géneros seleccionados: ', selectedGenres)//Me lo pilla
 
-                      if (favoriteFilter === 'SI') {
-                        return marked.filter(f => f.isFavorite);
-                      } else if (favoriteFilter === 'NO') {
-                        return marked.filter(f => !f.isFavorite);
-                      }
+              // Filtrado de acuerdo a los géneros seleccionados
+              if (selectedGenres.length > 0) {
+                marked = marked.filter(film => {
+                  console.log(film.genre_ids);
+                  return film.genre_ids.some(genre => selectedGenres.includes(genre)); //Con every sería que coincida todo. Con some que coincidan algunos
+                });
+              }
 
-                      if (categoryIds.length > 0) {
-                        marked = marked.filter(film =>
-                          film.genres.some(genre => categoryIds.includes(genre.id))//Puede que haya errores. Si es así poner un ? a la derecha de genres
-                        );
-                      }
+              if (favoriteFilter === 'SI') {
+                return marked.filter(f => f.isFavorite);//Las que son favoritas
+              } else if (favoriteFilter === 'NO') {
+                return marked.filter(f => !f.isFavorite);//Las que no lo son
+              }
 
-                      return marked;
+              // console.log(films);
+              // console.log(marked);
+              return marked;
 
-                    })
-                  )
-                )
-            );
+
+            })
+          )
+        )
+      );
     }
+
 
     getDetailsById(filmId: number): Observable<Film> {
       const apiKey = localStorage.getItem('api_movies') || '';
@@ -103,5 +112,14 @@ export class FilmService {
       return this.http.get<any>(url)
         .pipe(map(response => response.genres));
 
+    }
+
+    getFilmImages(filmId: number): Observable<any>{//Para las varias imágenes
+      const apiKey = localStorage.getItem('api_movies') || '';
+      const url = `https://api.themoviedb.org/3/movie/${filmId}/images?api_key=${apiKey}`;
+
+      return this.http.get<any>(url).pipe(
+        map(response => response.backdrops) // Aseguramos que solo devolvemos los backdrops
+      );
     }
 }

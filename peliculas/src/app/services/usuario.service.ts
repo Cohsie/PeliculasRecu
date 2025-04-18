@@ -30,6 +30,7 @@ export class UsuarioService {
   editUsuario(usuario: Usuario, route?: string) {
     const body = JSON.stringify(usuario);
 
+    //Creo que esto podría borrarse
     if (route) {
       route = `?route=${route}`;
     } else {
@@ -60,6 +61,13 @@ export class UsuarioService {
     if (index) {
       this.usuarios[index] = usuario;
     }
+  }
+
+  //Para el toogle de habilitado
+  actualizarHabilitado(id: string, habilitado: string) {
+    return this.http.put<ApiResponse>(
+      `${URL_API}/${ENDPOINT}.php`, { id_usuario: id, habilitado }, { headers: this.commonService.headers }
+    );
   }
 
   //Métodos que se usarán para mostrar las películas utilizando la API key del usuario

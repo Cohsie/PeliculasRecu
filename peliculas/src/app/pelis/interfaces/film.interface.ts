@@ -8,4 +8,5 @@ export interface Film {
   vote_count: number;
   popularity: number;
   genres: Array<{ id: number, name: string }>;
+  genre_ids: number[]
 }

@@ -77,4 +77,14 @@ export class UsuariosComponent implements OnInit {
     }
   }
 
+  toggleHabilitado(usuario: Usuario): void {
+    const nuevoValor = usuario.habilitado === '1' ? '0' : '1';
+
+    this.servicioUsuarios.actualizarHabilitado(usuario.id_usuario, nuevoValor)
+      .subscribe({
+        next: () => usuario.habilitado = nuevoValor,
+        error: err => console.error('Error al actualizar habilitado', err)
+      });
+  }
+
 }

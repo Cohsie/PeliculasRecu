@@ -28,12 +28,15 @@
       <mat-cell *matCellDef="let usuario"> {{ usuario.rol }} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="habilitado">
+    <!--<ng-container matColumnDef="habilitado">
       <mat-header-cell *matHeaderCellDef> Habilitado </mat-header-cell>
       <mat-cell *matCellDef="let usuario">
-        {{ usuario.habilitado == '1' ? 'Sí' : 'No' }}
+        <mat-slide-toggle
+          [checked]="usuario.habilitado == '1'"
+          (change)="toggleHabilitado(usuario)">
+        </mat-slide-toggle>
       </mat-cell>
-    </ng-container>
+    </ng-container>-->
 
     <ng-container matColumnDef="acciones">
       <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>

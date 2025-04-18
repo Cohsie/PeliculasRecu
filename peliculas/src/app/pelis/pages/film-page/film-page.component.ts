@@ -19,7 +19,7 @@ export class FilmPageComponent implements OnInit {
   public account_id = localStorage.getItem('account_id');
   //public userId = localStorage.getItem('id_usuario');
   public sessionId = localStorage.getItem('sessionId');
-
+  filmImages: any[] = []; // Array para almacenar las imágenes de fondo (backdrops)
 
 
   public isFavorite: boolean = false;
@@ -47,6 +47,7 @@ export class FilmPageComponent implements OnInit {
         console.log('Pelicula encontrada:', film);
         this.checkIfFavorite(film.id);
         this.film = film;
+        this.loadImages(film.id);
 
       });
       console.log('Film en detalle:', this.film);
@@ -54,13 +55,13 @@ export class FilmPageComponent implements OnInit {
 
   checkIfFavorite(filmId: number): void {
     if (this.sessionId && this.account_id) {
-      this.favsService.getAllFavs(this.sessionId, this.account_id).subscribe(
+      this.favsService.getAllFavs(this.sessionId, this.account_id).subscribe(//Primero obtiene todos los favoritos
         (favorites: any[]) => {
           console.log("Esto es favorites:", favorites);
           console.log("ID de la película:", filmId);
 
           if (Array.isArray(favorites)) {
-            const isFavorite = favorites.indexOf(filmId) !== -1;
+            const isFavorite = favorites.some(fav => fav.id === filmId);
             this.isFavorite = isFavorite;
             console.log("¿Es favorito?", isFavorite);
           }
@@ -72,6 +73,7 @@ export class FilmPageComponent implements OnInit {
     }
   }
 
+  //Añadir a favoritos
   addToFavorites(): void {
     console.log('Account ID:', this.account_id);
     console.log('Film:', this.film);
@@ -97,6 +99,7 @@ export class FilmPageComponent implements OnInit {
     }
   }
 
+  //Eliminar de favoritos
   removeFromFavorites(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
@@ -119,6 +122,15 @@ export class FilmPageComponent implements OnInit {
         );
       }
     })
+  }
+
+  //Carga de imágenes múltiples
+  loadImages(filmId: number): void {
+    this.filmService.getFilmImages(filmId).subscribe(images => {
+      this.filmImages = images.slice(0, 5); // Se mostrarán 5 imágenes
+      this.filmImages.push({ file_path: '' });
+      console.log('Imágenes:', this.filmImages);
+    });
   }
 
   showSnackbar(message: string): void {

@@ -1,12 +1,4 @@
-<ng-template #divLoading>
-  <mat-grid-list cols="1">
-      <mat-grid-tile>
-          <mat-spinner></mat-spinner>
-      </mat-grid-tile>
-  </mat-grid-list>
-</ng-template>
-
-<div *ngIf="film; else divLoading" class="grid p-2">
+<div *ngIf="film" class="grid p-2">
   <mat-card class="col-12 sm:col-6">
       <mat-card-header>
           <mat-card-title>{{ film.title }}</mat-card-title>
@@ -29,12 +21,20 @@
               <mat-list-item><strong>Popularidad:</strong> {{ film.popularity | number }}</mat-list-item>
               <mat-list-item>
                   <strong>Géneros:</strong>
-                  <span *ngFor="let genre of film.genres; let last = last">
-                      {{ genre.name }}{{ last ? '' : ', ' }}
+                  <span *ngFor="let genre of film.genres">
+                      {{ genre.name }}
                   </span>
               </mat-list-item>
           </mat-list>
 
+          <!-- Aquí van las imágenes de fondo -->
+          <h3>Imágenes de la película</h3>
+          <div class="image-gallery" style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <img *ngFor="let img of filmImages"
+                [src]="'https://image.tmdb.org/t/p/w500' + img.file_path"
+                [alt]="film.title"
+                style="width: 100%; max-width: 300px; border-radius: 8px;">
+          </div>
 
           <mat-card-actions>
               <button mat-button *ngIf="!isFavorite" (click)="addToFavorites()">

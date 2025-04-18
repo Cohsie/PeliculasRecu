@@ -33,19 +33,19 @@ export class SearchPageComponent {
       console.log('Géneros cargados:', categories);  // Verifica los géneros
     });
 
-    // Si no tenemos sessionId, lo obtenemos
-    if (response_token && !sessionId) {
-      this.authService.getSessionId().subscribe({
-        next: (response) => {
-          console.log('Session ID obtenido:', response);
-          const sessionId = response.session_id;
-          localStorage.setItem('sessionId', sessionId);
-        },
-        error: (error) => {
-          console.error('Error al obtener el Session ID:', error);
-        }
-      });
-    }
+    //? Puede que ni sea necesario
+    // if (response_token && !sessionId) {
+    //   this.authService.getSessionId().subscribe({
+    //     next: (response) => {
+    //       console.log('Session ID obtenido:', response);
+    //       const sessionId = response.session_id;
+    //       localStorage.setItem('sessionId', sessionId);
+    //     },
+    //     error: (error) => {
+    //       console.error('Error al obtener el Session ID:', error);
+    //     }
+    //   });
+    // }
 
   }
 
@@ -70,7 +70,7 @@ export class SearchPageComponent {
   }
 
 
-  // Manejar la selección de una opción del autocompletado
+  // Esto es para el autocompletado
   public onSelectedOption(event: MatAutocompleteSelectedEvent): void {
     if (!event.option.value) {
       this.selectedFilm = undefined;
@@ -84,7 +84,8 @@ export class SearchPageComponent {
 
   // Manejar el cambio en la selección de géneros
   public onCategoryChange(event: any): void {
-    this.selectedGenres = Array.from(event.target.selectedOptions, (option: any) => option.value);
+    this.selectedGenres = event.value;
+    console.log('Géneros seleccionados:', this.selectedGenres); // Verifica los géneros seleccionados
     this.searchFilms();
   }
 }
