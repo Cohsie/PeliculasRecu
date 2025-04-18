@@ -76,7 +76,6 @@ export class SearchPageComponent {
       this.selectedFilm = undefined;
       return;
     }
-
     const film: Film = event.option.value;
     this.searchInput.setValue(film.title);
     this.selectedFilm = film;

@@ -88,18 +88,6 @@ export class LoginPageComponent implements OnInit{
     }
   }
 
-  //Esto es temporal para poder añadir un usuario admin con la apiKey
-  async registro() {
-    const dialogRef = this.dialog.open(AddUserComponent, { width: '500px', scrollStrategy: this.overlay.scrollStrategies.noop() });
-    const RESP = await dialogRef.afterClosed().toPromise();
-    if (RESP) {
-      if (RESP.ok) {
-        this.servicioUsuarios.usuarios.push(RESP.data);
-        this.dataSource.data = this.servicioUsuarios.usuarios;
-      }
-    }
-  }
-
 
   async doLogin(username: string, password: string){
     try {

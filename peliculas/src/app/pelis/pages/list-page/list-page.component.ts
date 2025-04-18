@@ -30,8 +30,12 @@ export class ListPageComponent implements OnInit {
 
         console.log('Usuarios cargados:', this.usuarioService.usuarios);
 
+        if (!response_token){
+          this.authService.doLogout();
+        }
+
         // Si no tenemos sessionId, lo obtenemos
-        if (response_token && !sessionId) {
+        if (!sessionId) {
           this.authService.getSessionId().subscribe({
             next: (response) => {
               console.log('Session ID obtenido:', response);
@@ -43,6 +47,9 @@ export class ListPageComponent implements OnInit {
             },
             error: (error) => {
               console.error('Error al obtener el Session ID:', error);
+              // 🔐 Forzar logout si el token no es válido (posible denegación)
+              this.authService.doLogout();
+              this.router.navigate(['/login']);
             }
           });
         } else {

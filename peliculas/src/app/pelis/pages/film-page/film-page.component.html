@@ -33,7 +33,7 @@
             <img *ngFor="let img of filmImages"
                 [src]="'https://image.tmdb.org/t/p/w500' + img.file_path"
                 [alt]="film.title"
-                style="width: 100%; max-width: 300px; border-radius: 8px;">
+                style="width: 100%; max-width: 300px; border-radius: 8px;"><!--la ruta de la imagen concreta-->
           </div>
 
           <mat-card-actions>
