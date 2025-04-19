@@ -39,6 +39,18 @@
           </mat-form-field>
       </div>
 
+      <div class="form">
+        <mat-form-field color="accent">
+            <input matInput placeholder="API KEY de TMDB" formControlName="api_movies" name="api_movies">
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <mat-form-field color="accent">
+            <input matInput placeholder="ID de cuenta de TMDB" formControlName="account_id" name="account_id">
+        </mat-form-field>
+      </div>
+
       <div mat-dialog-actions>
           <button id="onSubmit" mat-button type="submit"  [disabled]="!usuarioForm.valid" (click)="confirmAdd()">Guardar</button>
           <button id="onNoClick" mat-button (click)="onNoClick()" tabindex="-1">Cancelar</button>

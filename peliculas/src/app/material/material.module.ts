@@ -18,7 +18,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDividerModule } from '@angular/material/divider';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @NgModule({
   exports: [
     MatAutocompleteModule,
@@ -38,7 +38,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatToolbarModule,
     MatTableModule,
     MatPaginatorModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSlideToggleModule
   ]
 })
 export class MaterialModule { }

@@ -13,6 +13,8 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { FavPageComponent } from './pages/fav-page/fav-page.component';
 import { FilmPageComponent } from './pages/film-page/film-page.component';
 
+import { FilmImagePipe } from './pipe/film-image.pipe';
+
 import { UsuariosModule } from './pages/usuarios/usuarios.module';
 
 @NgModule({
@@ -23,7 +25,8 @@ import { UsuariosModule } from './pages/usuarios/usuarios.module';
     ListPageComponent,
     SearchPageComponent,
     FavPageComponent,
-    FilmPageComponent
+    FilmPageComponent,
+    FilmImagePipe
   ],
   imports: [
     CommonModule,

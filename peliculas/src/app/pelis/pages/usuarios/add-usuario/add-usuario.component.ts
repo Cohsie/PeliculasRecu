@@ -27,7 +27,9 @@ export class AddUsuarioComponent {
       password: new FormControl(null, [Validators.required]),
       id_rol: new FormControl(null, [Validators.required]),
       nombre_publico: new FormControl(null),
-      observaciones: new FormControl(null)
+      observaciones: new FormControl(null),
+      api_movies: new FormControl(null),
+      account_id: new FormControl(null)
     });
 
     this.getRoles();
@@ -53,8 +55,11 @@ export class AddUsuarioComponent {
         if (RESP && RESP.ok) {
           this.snackBar.open(RESP.message || 'Operación exitosa', 'Cerrar', { duration: 5000 });
           this.dialogRef.close({ ok: RESP.ok, data: RESP.data });
+          console.log({ok: RESP.ok, data: RESP.data});
         } else {
           this.snackBar.open(RESP?.message || 'Hubo un error', 'Cerrar', { duration: 5000 });
+          console.log('Error al añadir');
+          console.log(RESP)
         }
       } catch (error) {
         console.error('Error al agregar el usuario:', error);

@@ -50,7 +50,7 @@ export class EditUsuarioComponent {
     }
   }
 
-  async confirmAdd() {//TODO: Hay que hacer que el usuario se vea editado nada más cerrar el dialog de editar
+  async confirmAdd() {
     if (this.usuarioForm.valid) {
       const usuario = this.usuarioForm.value;
 

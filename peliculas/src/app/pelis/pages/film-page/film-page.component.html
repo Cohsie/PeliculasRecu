@@ -31,7 +31,7 @@
           <h3>Imágenes de la película</h3>
           <div class="image-gallery" style="display: flex; flex-wrap: wrap; gap: 10px;">
             <img *ngFor="let img of filmImages"
-                [src]="'https://image.tmdb.org/t/p/w500' + img.file_path"
+                [src]="img.file_path | filmImage"
                 [alt]="film.title"
                 style="width: 100%; max-width: 300px; border-radius: 8px;"><!--la ruta de la imagen concreta-->
           </div>

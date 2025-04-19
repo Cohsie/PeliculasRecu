@@ -58,15 +58,15 @@ export class UsuarioService {
       }
     });
 
-    if (index) {
-      this.usuarios[index] = usuario;
+    if (index != null) {
+      this.usuarios[index] = { ...usuario };
     }
   }
 
   //Para el toogle de habilitado
-  actualizarHabilitado(id: string, habilitado: string) {
+  actualizarHabilitado(id_usuario: string, habilitado: number) {
     return this.http.put<ApiResponse>(
-      `${URL_API}/${ENDPOINT}.php`, { id_usuario: id, habilitado }, { headers: this.commonService.headers }
+      `${URL_API}/${ENDPOINT}.php`, { id_usuario, habilitado }, { headers: this.commonService.headers }
     );
   }
 

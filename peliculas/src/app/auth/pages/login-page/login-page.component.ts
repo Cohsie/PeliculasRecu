@@ -124,7 +124,7 @@ export class LoginPageComponent implements OnInit{
               const token = tokenResponse.request_token;
               localStorage.setItem('requestToken', token);
 
-              const backURL = encodeURIComponent('http://localhost:4200/pelis');
+              const backURL = encodeURIComponent('http://localhost:4200/films');
               const redirectURL = `https://www.themoviedb.org/authenticate/${token}?redirect_to=${backURL}`
 
               window.location.href = redirectURL;
