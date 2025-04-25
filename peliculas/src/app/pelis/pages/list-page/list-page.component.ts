@@ -10,8 +10,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 @Component({
   selector: 'app-list-page',
   templateUrl: './list-page.component.html',
-  styles: [
-  ]
+  styleUrls: ['./list-page.component.scss']
 })
 export class ListPageComponent implements OnInit {
 

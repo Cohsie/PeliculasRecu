@@ -2,6 +2,9 @@
 
 <mat-divider></mat-divider>
 
-<div *ngFor="let film of films" class="col-12 sm:col-4 md:col-3 xl:col-2">
-  <film-card [film]="film"></film-card>
+
+<div *ngIf="films.length > 0" class="grid">
+  <div *ngFor="let film of films">
+    <film-card [film]="film"></film-card>
+  </div>
 </div>
