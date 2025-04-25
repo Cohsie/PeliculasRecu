@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Observable, of, from } from "rxjs";
 import { Injectable } from "@angular/core";
-import { map, switchMap, concatMap, toArray, catchError } from 'rxjs/operators';
+import { map, switchMap, concatMap, toArray, catchError, tap } from 'rxjs/operators';
 import { Film } from "../pelis/interfaces/film.interface";
 import { environments } from "src/app/environments/environment";
 import { CommonService } from "./common.service";
@@ -16,11 +16,21 @@ export class FavService {
 
     // Obtener todas las películas favoritas de un usuario desde la API de TMDB
     getAllFavs(sessionId: string, accountId: string): Observable<Film[]> {//Aquí no hace falta un filmId
+      console.log('SessionId endpoint:', sessionId); // Imprimir sessionId
+      console.log('AccountId endpoint:', accountId); // Imprimir accountId
+      console.log(`sessionId: ${sessionId} accountId: ${accountId}`);
+
       const apiKey = localStorage.getItem('api_movies') || '';
         return this.http.get<{ results: any[] }>(
             `https://api.themoviedb.org/3/account/${accountId}/favorite/movies?api_key=${apiKey}&session_id=${sessionId}&language=es`
         ).pipe(
-            map(response => response.results || [])
+          tap(response => {
+            // Verifica la respuesta de la API
+            console.log('API response:', response);
+            console.log(accountId);
+            console.log(apiKey);
+          }),
+            map(response => response.results)
         );
     }
 
@@ -59,4 +69,6 @@ export class FavService {
             })
         );
     }
+
+
 }

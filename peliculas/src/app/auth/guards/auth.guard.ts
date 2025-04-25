@@ -33,6 +33,7 @@ const checkAuthStatus = (): Observable<boolean> => {
           tap( isAuthenticated =>{
               if (!isAuthenticated){
                   router.navigate(['/auth/login']);
+                  localStorage.clear();
               }
           })
       )

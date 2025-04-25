@@ -14,6 +14,8 @@ import { Router } from '@angular/router';
 //Este es el component del sidenav
 export class LayoutPageComponent implements OnInit{
 
+  usuario: string | null = '';
+
   constructor(private authService: AuthService,
     private router: Router
   ){}
@@ -21,6 +23,7 @@ export class LayoutPageComponent implements OnInit{
   public rol = localStorage.getItem('id_rol');
 
   ngOnInit(): void {
+      this.usuario = localStorage.getItem('usuario');
       if(this.rol == '1'){
         this.opcionesSidebar.push(
           {label: 'Gestión de usuarios', icon:'group', url: './usuarios'}
@@ -34,9 +37,8 @@ export class LayoutPageComponent implements OnInit{
     { label: 'Películas favoritas', icon:'star', url: './favs' }
   ]
 
-  onLogout():void {
-    this.authService.doLogout();
-    this.router.navigate(['/auth']);
+  onLogout(): void {
+    this.authService.doLogout()
   }
 
 

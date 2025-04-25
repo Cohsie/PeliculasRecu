@@ -16,9 +16,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class FilmPageComponent implements OnInit {
   public film?: Film;
-  public account_id = localStorage.getItem('account_id');
-  //public userId = localStorage.getItem('id_usuario');
-  public sessionId = localStorage.getItem('sessionId');
+  sessionId: string | null = null;
+  accountId: string | null = null;
+
   filmImages: any[] = []; // Array para almacenar las imágenes de fondo (backdrops)
 
 
@@ -32,7 +32,10 @@ export class FilmPageComponent implements OnInit {
     private snackBar: MatSnackBar
   ){}
   ngOnInit(): void {
-    console.log(this.account_id);
+    this.sessionId = localStorage.getItem('sessionId');
+    this.accountId = localStorage.getItem('account_id');
+    console.log('account_id del usuario',this.accountId);
+
     this.activatedRoute.params//emite los parametros de la ruta, en este caso los ID
     //pipe envuelve los operadores rxjs (como switchMap en este caso)
     //switchMap
@@ -54,11 +57,18 @@ export class FilmPageComponent implements OnInit {
   }
 
   checkIfFavorite(filmId: number): void {
-    if (this.sessionId && this.account_id) {
-      this.favsService.getAllFavs(this.sessionId, this.account_id).subscribe(//Primero obtiene todos los favoritos
+    if (this.sessionId && this.accountId) {
+      console.log("ID de la película:", filmId);
+      console.log("account id:", this.accountId);
+      console.log("session id:", this.sessionId);
+      this.favsService.getAllFavs(this.sessionId, this.accountId).subscribe(//Primero obtiene todos los favoritos
         (favorites: any[]) => {
           console.log("Esto es favorites:", favorites);
           console.log("ID de la película:", filmId);
+          console.log("account id:", this.accountId);
+          console.log("session id:", this.sessionId);
+
+
 
           if (Array.isArray(favorites)) {
             const isFavorite = favorites.some(fav => fav.id === filmId);
@@ -75,15 +85,15 @@ export class FilmPageComponent implements OnInit {
 
   //Añadir a favoritos
   addToFavorites(): void {
-    console.log('Account ID:', this.account_id);
+    console.log('Account ID:', this.accountId);
     console.log('Film:', this.film);
     console.log('Session ID:', this.sessionId);
 
-    if (this.account_id && this.film && this.sessionId) {
+    if (this.accountId && this.film && this.sessionId) {
       const filmId = this.film.id;
       const filmTitle = this.film.title;
 
-      this.favsService.addFavorite(this.sessionId, this.account_id, filmId).subscribe(
+      this.favsService.addFavorite(this.sessionId, this.accountId, filmId).subscribe(
         () => {
           this.isFavorite = true;
           console.log('Película añadida a favoritos');
@@ -105,11 +115,11 @@ export class FilmPageComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
 
-      if (this.account_id && this.film && this.sessionId) {
+      if (this.accountId && this.film && this.sessionId) {
         const filmId = this.film.id;
         const filmTitle = this.film.title;
 
-        this.favsService.removeFavorite(this.sessionId, this.account_id, filmId).subscribe(
+        this.favsService.removeFavorite(this.sessionId, this.accountId, filmId).subscribe(
           () => {
             this.isFavorite = false;
             console.log('Película eliminada de favoritos');

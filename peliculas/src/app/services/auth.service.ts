@@ -19,7 +19,7 @@ export class AuthService {
   //Usuario->Base de datos
   doLogin(data: any){
     const body = JSON.stringify(data);
-    console.log(body);
+    console.log(body); //mejor comentar esto porque mostrar usuario y CONTRASEÑA en consola estaría feíllo
     return this.http.post<ApiResponse>(`${URL_API}/login.php`, body);
   }
 
@@ -59,11 +59,26 @@ export class AuthService {
       );
   }
 
+
+
   doLogout() {
     const body = new FormData();
     const usuario = localStorage.getItem('usuario') || '';
     body.append('user', usuario);
+    this.deleteSession
     localStorage.clear();
+    localStorage.removeItem('sessionId');
+    localStorage.removeItem('account_id');
+    localStorage.removeItem('requestToken');
+    localStorage.removeItem('token');
+    this.cookieService.deleteAll();
+
+    console.log('sessionId:', localStorage.getItem('sessionId'));
+    console.log('accountId:', localStorage.getItem('account_id'));
+    console.log('token:', localStorage.getItem('token'));
+    console.log('usuario:', localStorage.getItem('usuario'));
+
+    window.location.href = '/auth';
     return this.http.post(`${URL_API}/logout.php`, body);
   }
 
@@ -87,7 +102,24 @@ export class AuthService {
     )
   }
 
+  async deleteSession(sessionId: string) {
+    const response = await fetch('https://api.themoviedb.org/3/authentication/session', {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZGJmMmVmZDE2ODg4Y2Q5NzliN2JkMDg5NWMwMmU5MSIsIm5iZiI6MTc0NTI1ODE0MS4zMTEsInN1YiI6IjY4MDY4NjlkMzdhNzIyYjg4NjhhMjhmNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.1wbo6kO6Ce6VqUoTzDIbqqvKonn94ObZVCsUInzYY6c',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ session_id: sessionId })
+    });
 
+    if (response.ok) {
+      console.log('Sesión eliminada correctamente');
+    } else {
+      const errorData = await response.json();
+      console.error('Error al eliminar sesión:', errorData);
+    }
+  }
 
 }
 

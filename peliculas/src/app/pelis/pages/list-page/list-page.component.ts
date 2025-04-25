@@ -19,48 +19,36 @@ export class ListPageComponent implements OnInit {
   constructor(private authService: AuthService, private filmService: FilmService, private router: Router, private usuarioService: UsuarioService) {}
 
   ngOnInit() {
-    const response_token = localStorage.getItem('requestToken');
     const sessionId = localStorage.getItem('sessionId');
 
-    // Cargar los usuarios antes de todo
-    this.usuarioService.getAllUsuarios().subscribe({
-      next: (response) => {
-        // Almacenar los usuarios en el servicio
-        this.usuarioService.usuarios = response.data;
+    // Si no tenemos sessionId, lo obtenemos
+    if (!sessionId) {
+      this.authService.getSessionId().subscribe({
+        next: (response) => {
+          console.log('Session ID obtenido:', response);
+          const sessionId = response.session_id;
+          localStorage.setItem('sessionId', sessionId);
 
-        console.log('Usuarios cargados:', this.usuarioService.usuarios);
-
-        // if (!response_token){
-        //   this.authService.doLogout();
-        // }
-
-        // Si no tenemos sessionId, lo obtenemos
-        if (!sessionId) {
-          this.authService.getSessionId().subscribe({
-            next: (response) => {
-              console.log('Session ID obtenido:', response);
-              const sessionId = response.session_id;
-              localStorage.setItem('sessionId', sessionId);
-
-              // Ahora que tenemos el sessionId y los usuarios, cargamos las películas
-              this.cargarPeliculas();
-            },
-            error: (error) => {
-              console.error('Error al obtener el Session ID:', error);
-              // 🔐 Forzar logout si el token no es válido (posible denegación)
-              this.authService.doLogout();
-              this.router.navigate(['/auth']);
-            }
-          });
-        } else {
-          // Si ya tenemos el sessionId, simplemente cargamos las películas
+          // Ahora que tenemos el sessionId, cargamos las películas
           this.cargarPeliculas();
+          console.log('api_movies: ', localStorage.getItem('api_movies'));
+          console.log('usuario: ',localStorage.getItem('usuario'));
+          console.log('token: ',localStorage.getItem('token'));
+          console.log('sessionId: ',localStorage.getItem('sessionId'));
+          console.log('Request token:', localStorage.getItem('requestToken'));
+
+        },
+        error: (error) => {
+          console.error('Error al obtener el Session ID:', error);
+          // 🔐 Forzar logout si el token no es válido (posible denegación)
+          this.authService.doLogout();
+          this.router.navigate(['/auth']);
         }
-      },
-      error: (error) => {
-        console.error('Error al cargar los usuarios:', error);
-      }
-    });
+      });
+    } else {
+      // Si ya tenemos el sessionId, simplemente cargamos las películas
+      this.cargarPeliculas();
+    }
     console.log(localStorage.getItem('sessionId'));
   }
 

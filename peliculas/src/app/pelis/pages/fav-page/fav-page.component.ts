@@ -12,8 +12,8 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
 })
 export class FavPageComponent implements OnInit {
   films: Film[] = [];
-  private sessionId: string | null = localStorage.getItem('sessionId');//Está ya gestionado (queda ver si tira bien)
-  private accountId: string | null = localStorage.getItem('account_id');
+  sessionId: string | null = null;
+  accountId: string | null = null;
 
   constructor(
     private favService: FavService,
@@ -22,11 +22,23 @@ export class FavPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.sessionId = localStorage.getItem('sessionId');
+    this.accountId = localStorage.getItem('account_id');
+    console.log(this.accountId);
+    console.log(this.films);
+
     if (this.sessionId && this.accountId) {
       this.favService.getAllFavs(this.sessionId, this.accountId).subscribe((films: Film[]) => {
         this.films = films;
+        console.log('account después de llamar al método', this.accountId);
+        console.log('Después de llamar al método: ', this.films);
       });
     }
+    console.log('api_movies: ',localStorage.getItem('api_movies'));
+    console.log('usuario: ',localStorage.getItem('usuario'));
+    console.log('token: ', localStorage.getItem('token'));
+    console.log('account_id: ', localStorage.getItem('account_id'));
+
   }
 
   removeFromFavorites(filmId: number): void {

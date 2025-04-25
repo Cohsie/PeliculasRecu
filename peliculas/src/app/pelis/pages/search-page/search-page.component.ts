@@ -33,20 +33,6 @@ export class SearchPageComponent {
       console.log('Géneros cargados:', categories);  // Verifica los géneros
     });
 
-    //? Puede que ni sea necesario
-    // if (response_token && !sessionId) {
-    //   this.authService.getSessionId().subscribe({
-    //     next: (response) => {
-    //       console.log('Session ID obtenido:', response);
-    //       const sessionId = response.session_id;
-    //       localStorage.setItem('sessionId', sessionId);
-    //     },
-    //     error: (error) => {
-    //       console.error('Error al obtener el Session ID:', error);
-    //     }
-    //   });
-    // }
-
   }
 
   public searchFilms(): void {
