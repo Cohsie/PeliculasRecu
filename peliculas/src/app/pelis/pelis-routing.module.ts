@@ -9,6 +9,7 @@ import { FavPageComponent } from './pages/fav-page/fav-page.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
 
+import { AdminGuard } from '../auth/guards/admin.guard';
 
 const routes: Routes = [
   {
@@ -19,7 +20,7 @@ const routes: Routes = [
       {path: 'search', component: SearchPageComponent},
       {path: 'list', component: ListPageComponent},
       {path: 'favs', component: FavPageComponent},
-      {path: 'usuarios', component: UsuariosComponent},
+      {path: 'usuarios', component: UsuariosComponent, canActivate: [AdminGuard]},
       {path: ':id', component: FilmPageComponent},
       {path: '**', redirectTo: 'list'}
     ]
