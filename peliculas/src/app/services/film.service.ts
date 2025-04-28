@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { environments } from "src/app/environments/environment";
 import { Injectable } from "@angular/core";
@@ -20,52 +20,50 @@ export class FilmService {
       sessionId: string,
       accountId: string,
       favoriteFilter: 'SI' | 'NO' | 'TODAS' = 'TODAS',
-      selectedGenres: number[] = [],//Esto sí que debe estar para poder pillar los géneros seleccionados
+      selectedGenres: number[] = [],
     ): Observable<Film[]> {
 
-      const apiKey = localStorage.getItem('api_movies') || '';
+      const accessToken = localStorage.getItem('api_movies') || '';
+      const url = `https://api.themoviedb.org/3/search/movie`;
+
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      });
+
       const params = new HttpParams()
-        .set('api_key', apiKey)
         .set('page', '1')
         .set('language', 'es-ES')
         .set('query', query)
         .set('include_adult', 'true');
 
-      return this.http.get<{ results: Film[] }>(environments.apiUrl, { params }).pipe(
+      return this.http.get<{ results: Film[] }>(url, { headers, params }).pipe(
         map(response => response.results || []),
         switchMap(films =>
           this.favService.getAllFavs(sessionId, accountId).pipe(
             map(favorites => {
               const favoriteIds = favorites.map(f => f.id);
-                                    //favorites es el array de favoritas. f recorre el array y extrae el id
-              let marked = films.map(film => {//transforma lo obtenido con switchMap para agregarle la propiedad isFavorite
-                return {
-                  ...film, //Creo una copia de cada objeto film
-                  isFavorite: favoriteIds.includes(film.id), //y le agrego la propiedad isFavorite
-                };
-              });
 
-              console.log('Géneros seleccionados: ', selectedGenres)//Me lo pilla
+              let marked = films.map(film => ({
+                ...film,
+                isFavorite: favoriteIds.includes(film.id),
+              }));
 
-              // Filtrado de acuerdo a los géneros seleccionados
+              console.log('Géneros seleccionados:', selectedGenres);
+
               if (selectedGenres.length > 0) {
-                marked = marked.filter(film => {
-                  console.log(film.genre_ids);
-                  return film.genre_ids.some(genre => selectedGenres.includes(genre)); //Con every sería que coincida todo. Con some que coincidan algunos
-                });
+                marked = marked.filter(film =>
+                  film.genre_ids.some(genre => selectedGenres.includes(genre))
+                );
               }
 
               if (favoriteFilter === 'SI') {
-                return marked.filter(f => f.isFavorite);//Las que son favoritas
+                return marked.filter(f => f.isFavorite);
               } else if (favoriteFilter === 'NO') {
-                return marked.filter(f => !f.isFavorite);//Las que no lo son
+                return marked.filter(f => !f.isFavorite);
               }
 
-              // console.log(films);
-              // console.log(marked);
               return marked;
-
-
             })
           )
         )
@@ -74,52 +72,82 @@ export class FilmService {
 
 
     getDetailsById(filmId: number): Observable<Film> {
-      const apiKey = localStorage.getItem('api_movies') || '';
-      return this.http.get<any>(`https://api.themoviedb.org/3/movie/${filmId}?api_key=${apiKey}&language=es`)
+      const apiKey = localStorage.getItem('api_movies') || ''; // Obtener el Bearer token
+
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      });
+
+      return this.http.get<Film>(`https://api.themoviedb.org/3/movie/${filmId}`, { headers });
     }
 
     //Método para acceder a los detalles de una película seleccionada
     getFilmDetails(title: string): Observable<Film> {
-      const apiKey = localStorage.getItem('api_movies') || '';
-      const url = `${environments.apiUrl}?api_key${apiKey}&query=${title}&language=es-ES`;
+      const apiKey = localStorage.getItem('api_movies') || ''; // Obtener el Bearer token
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      });
 
-      return this.http.get<any>(url)
-        .pipe(map((response: any) => response.results[0]));
+      const params = new HttpParams()
+        .set('query', title)
+        .set('language', 'es-ES');
+
+      return this.http.get<any>(
+        `https://api.themoviedb.org/3/search/movie`, // Usamos la URL de búsqueda
+        { headers, params } // Los parámetros de búsqueda y los encabezados
+      ).pipe(
+        map(response => response.results[0]) // Extraemos el primer resultado
+      );
     }
 
     //Método para obtener las películas de la ruta /list
-    getTopRatedFilms(): Observable<Film[]> {
-      const apiKey = localStorage.getItem('api_movies') || '';
+    getTopRatedFilms(): Observable<Film[]> {//? HECHO
+      const accessToken = localStorage.getItem('api_movies') || '';
 
-      //const apiKey = this.usuarioService.getApiKey();//Creo una constante apiKey
-      //console.log('API Key usada:', this.usuarioService.getApiKey());
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      });
 
       const params = new HttpParams()
-        .set('api_key', apiKey)
         .set('page', '1')
         .set('language', 'es-ES');
 
-      // Petición a TMDB para obtener las películas con mejor puntuación
-      return this.http.get<{ results: Film[] }>(`https://api.themoviedb.org/3/movie/top_rated`, { params })
-        .pipe(map(response => response.results || [])); // Extraemos solo las películas
+      return this.http.get<{ results: Film[] }>(`https://api.themoviedb.org/3/movie/top_rated`, { headers, params })
+        .pipe(map(response => response.results || []));
     }
 
     //Método para obtener todas las categiorías de películas para el buscador de triple filtro
-    getCategories(): Observable<{id:number, name:string}[]>{
-      const apiKey = localStorage.getItem('api_movies') || '';
-      const url = `${this.urlBase}/genre/movie/list?api_key=${apiKey}&language=es-ES`;
+    getCategories(): Observable<{ id: number, name: string }[]> {
+      const accessToken = localStorage.getItem('api_movies') || '';
+      const url = `${this.urlBase}/genre/movie/list`;
 
-      return this.http.get<any>(url)
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      });
+
+      const params = new HttpParams()
+        .set('language', 'es-ES');
+
+      return this.http.get<any>(url, { headers, params })
         .pipe(map(response => response.genres));
-
     }
 
-    getFilmImages(filmId: number): Observable<any>{//Para las varias imágenes
-      const apiKey = localStorage.getItem('api_movies') || '';
-      const url = `https://api.themoviedb.org/3/movie/${filmId}/images?api_key=${apiKey}`;
+    getFilmImages(filmId: number): Observable<any> {
+      const apiKey = localStorage.getItem('api_movies') || ''; // Obtener el Bearer token
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      });
 
-      return this.http.get<any>(url).pipe(
-        map(response => response.backdrops) // Aseguramos que solo devolvemos los backdrops
+      return this.http.get<any>(
+        `https://api.themoviedb.org/3/movie/${filmId}/images`, // URL correcta para obtener las imágenes
+        { headers }
+      ).pipe(
+        map(response => response.backdrops) // Extraemos solo los backdrops
       );
     }
 }

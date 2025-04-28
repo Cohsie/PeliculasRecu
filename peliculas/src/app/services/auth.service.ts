@@ -65,7 +65,6 @@ export class AuthService {
     const body = new FormData();
     const usuario = localStorage.getItem('usuario') || '';
     body.append('user', usuario);
-    this.deleteSession
     localStorage.clear();
     localStorage.removeItem('sessionId');
     localStorage.removeItem('account_id');
@@ -85,41 +84,34 @@ export class AuthService {
 
   //Para obtener el request token
   getRequestToken(): Observable<any> {
-    const apiMovies = localStorage.getItem('api_movies');
-    return this.http.get(
-      `https://api.themoviedb.org/3/authentication/token/new?api_key=${apiMovies}`
-    )
+    const apiKey = localStorage.getItem('api_movies') || ''; // Obtener el Bearer token
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.get<any>(
+      `https://api.themoviedb.org/3/authentication/token/new`,
+      { headers }
+    );
   }
 
   //Para obtener el session id una vez obtenido el request token
-  getSessionId(): Observable<any>{
-    const request_token = localStorage.getItem('requestToken');
-    console.log(localStorage.getItem('requestToken'));
-    const api_movies = localStorage.getItem('api_movies');
-    return this.http.post(
-      `https://api.themoviedb.org/3/authentication/session/new?api_key=${api_movies}`,
-      { request_token }
-    )
-  }
+  getSessionId(): Observable<any> {
+    const requestToken = localStorage.getItem('requestToken'); // Obtener el request token
+    const apiKey = localStorage.getItem('api_movies') || ''; // Obtener el Bearer token
 
-  async deleteSession(sessionId: string) {
-    const response = await fetch('https://api.themoviedb.org/3/authentication/session', {
-      method: 'DELETE',
-      headers: {
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZGJmMmVmZDE2ODg4Y2Q5NzliN2JkMDg5NWMwMmU5MSIsIm5iZiI6MTc0NTI1ODE0MS4zMTEsInN1YiI6IjY4MDY4NjlkMzdhNzIyYjg4NjhhMjhmNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.1wbo6kO6Ce6VqUoTzDIbqqvKonn94ObZVCsUInzYY6c',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({ session_id: sessionId })
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
     });
 
-    if (response.ok) {
-      console.log('Sesión eliminada correctamente');
-    } else {
-      const errorData = await response.json();
-      console.error('Error al eliminar sesión:', errorData);
-    }
+    return this.http.post<any>(
+      `https://api.themoviedb.org/3/authentication/session/new`, // URL sin la API Key en la URL
+      { request_token: requestToken }, // El request_token se manda en el cuerpo
+      { headers }
+    );
   }
-
 }
 
