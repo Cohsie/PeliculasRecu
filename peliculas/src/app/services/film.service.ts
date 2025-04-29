@@ -79,7 +79,11 @@ export class FilmService {
         'Content-Type': 'application/json'
       });
 
-      return this.http.get<Film>(`https://api.themoviedb.org/3/movie/${filmId}`, { headers });
+      const params = new HttpParams()
+      .set('language', 'es-ES');
+
+
+      return this.http.get<Film>(`https://api.themoviedb.org/3/movie/${filmId}`, { headers, params });
     }
 
     //Método para acceder a los detalles de una película seleccionada
