@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FilmService } from 'src/app/services/film.service';
 import { FavService } from 'src/app/services/fav.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { delay, switchMap } from 'rxjs';
+import { switchMap } from 'rxjs';
 import { Film } from '../../interfaces/film.interface';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -63,12 +63,10 @@ export class FilmPageComponent implements OnInit {
       console.log("session id:", this.sessionId);
       this.favsService.getAllFavs(this.sessionId, this.accountId).subscribe(//Primero obtiene todos los favoritos
         (favorites: any[]) => {
-          console.log("Esto es favorites:", favorites);
-          console.log("ID de la película:", filmId);
-          console.log("account id:", this.accountId);
-          console.log("session id:", this.sessionId);
-
-
+          // console.log("Esto es favorites:", favorites);
+          // console.log("ID de la película:", filmId);
+          // console.log("account id:", this.accountId);
+          // console.log("session id:", this.sessionId);
 
           if (Array.isArray(favorites)) {
             const isFavorite = favorites.some(fav => fav.id === filmId);

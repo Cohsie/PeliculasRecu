@@ -23,11 +23,11 @@ import { Usuario } from '../../../pelis/interfaces/usuario.interface';
 })
 export class LoginPageComponent implements OnInit{
 
-  @Output() valueChange = new EventEmitter();
+  // @Output() valueChange = new EventEmitter();
 
   loginForm: FormGroup = new FormGroup({});
 
-  dataSource: MatTableDataSource<Usuario> = new MatTableDataSource();
+  // dataSource: MatTableDataSource<Usuario> = new MatTableDataSource();
 
 
   constructor(
@@ -49,17 +49,14 @@ export class LoginPageComponent implements OnInit{
     this.loginForm = new FormGroup({
       username: new FormControl('', Validators.required)
     })
-    console.log('sessionId:', localStorage.getItem('sessionId'));
-    console.log('accountId:', localStorage.getItem('account_id'));
-    console.log('token:', localStorage.getItem('token'));
-    console.log('usuario:', localStorage.getItem('usuario'));
-    console.log('api_movies antes de nada:', localStorage.getItem('api_movies'));
+    // console.log('sessionId:', localStorage.getItem('sessionId'));
+    // console.log('accountId:', localStorage.getItem('account_id'));
+    // console.log('token:', localStorage.getItem('token'));
+    // console.log('usuario:', localStorage.getItem('usuario'));
+    // console.log('api_movies antes de nada:', localStorage.getItem('api_movies'));
   }
 
   async acceso(){
-    caches.keys().then(keys =>
-      keys.forEach(key => caches.delete(key))
-    );
 
     if(this.loginForm.valid){
       const username = this.loginForm.value.username;
@@ -157,7 +154,6 @@ export class LoginPageComponent implements OnInit{
             }
           });
         }
-        //this.router.navigate([`/pelis`]);//TODO: Creo que esto hay que quitarlo
       } else if (RESPONSE.data?.valido === 0) {//Si no se ha obtenido el token y el usuario no es válido...
         this.snackBar.open('Usuario inhabilitado', 'Cerrar', { duration: 5000 });
       } else if (RESPONSE.data?.valido === 1) {//Si no se ha obtenido el token y el usuario es válido...
@@ -167,7 +163,6 @@ export class LoginPageComponent implements OnInit{
       console.error('Error en el login:', error);
       this.snackBar.open('Error al conectar con el servidor', 'Cerrar', { duration: 5000 });
     }
-    //console.log()
   }
 
 }
