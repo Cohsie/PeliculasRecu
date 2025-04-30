@@ -28,18 +28,18 @@ export class AuthService {
     if(!token){
       return of (false);
     }
-    return of (true);
-    // return this.http.post<ApiResponse>(`${URL_API}/check_password.php`, {token}, {headers: this.commonService.headers})//? Creo que esto no vale para nada
-    //   .pipe(
-    //       map(response => {
-    //         console.log('Respuesta del backend:', response);
-    //         return response.ok;
-    //       }),
-    //       catchError((error) => {
-    //         console.error('Error de solicitud:', error);
-    //         return of(false);
-    //       })
-    //   );
+    //return of (true);
+    return this.http.post<ApiResponse>(`${URL_API}/check_password.php`, {token}, {headers: this.commonService.headers})
+      .pipe(
+          map(response => {
+            console.log('Respuesta del backend:', response);
+            return response.ok;
+          }),
+          catchError((error) => {
+            console.error('Error de solicitud:', error);
+            return of(false);
+          })
+      );
   }
 
   public checkUser(usuario: String): Observable<boolean>{

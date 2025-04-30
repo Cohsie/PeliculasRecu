@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { Error404Component } from './shared/pages/error404/error404.component';
 import { CanActivateGuard, CanMatchGuard } from './auth/guards/auth.guard';
 import { PublicGuard } from './auth/guards/public.guard';
-//TODO: Tengo que mirar lo del guard
 
 
 const routes: Routes = [
