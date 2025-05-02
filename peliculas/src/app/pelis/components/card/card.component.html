@@ -1,18 +1,20 @@
-<mat-card class="film-card" style="border: white 1px solid;">
+<mat-card class="film-card">
   <mat-card-header>
     <mat-card-title>{{ film.title }}</mat-card-title>
     <mat-card-subtitle>Estreno: {{ film.release_date | date:'longDate' }}</mat-card-subtitle>
   </mat-card-header>
   <br>
-  <img mat-card-image [src]="film.poster_path ? 'https://image.tmdb.org/t/p/w500' + film.poster_path : 'assets/no-image.png'" [alt]="film.title">
+  <img mat-card-image [src]="film.poster_path ? 'https://image.tmdb.org/t/p/w500' + film.poster_path : 'assets/images/no-image.jpg'" [alt]="film.title">
   <br>
   <mat-card-content>
     <p><strong>Puntuación:</strong> {{ film.vote_average }} ({{ film.vote_count }} votos)</p>
-    <p><strong>Popularidad:</strong> {{ film.popularity | number }}</p>
+    <p><strong>Popularidad:</strong> {{ film.popularity }}</p>
 
-    <mat-chip-listbox>
-      <mat-chip *ngFor="let genre of film.genres">{{ genre.name }}</mat-chip>
-    </mat-chip-listbox>
+    <mat-list>
+      <mat-chip *ngFor="let genre of genres" [value]="genre.id">
+        {{ genre.name }}
+      </mat-chip>
+    </mat-list>
   </mat-card-content>
 
   <mat-divider></mat-divider>

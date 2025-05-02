@@ -4,7 +4,7 @@
           <mat-card-title>{{ film.title }}</mat-card-title>
           <mat-card-subtitle>Estreno: {{ film.release_date | date:'longDate' }}</mat-card-subtitle>
       </mat-card-header>
-      <img [src]="film.poster_path ? 'https://image.tmdb.org/t/p/w500' + film.poster_path : 'assets/no-image.png'"
+      <img [src]="film.poster_path ? 'https://image.tmdb.org/t/p/w500' + film.poster_path : 'assets/images/no-image.jpg'"
            [alt]="film.title" mat-card-image>
   </mat-card>
 
@@ -33,7 +33,7 @@
             <img *ngFor="let img of filmImages"
                 [src]="img.file_path | filmImage"
                 [alt]="film.title"
-                style="width: 100%; max-width: 300px; border-radius: 8px;"><!--la ruta de la imagen concreta-->
+                style="width: 100%; max-width: 300px; border-radius: 8px;">
           </div>
 
           <mat-card-actions>

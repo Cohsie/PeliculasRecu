@@ -8,7 +8,7 @@ mat-card {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   border-radius: 16px;
   padding: 40px;
-  background: linear-gradient(135deg, #d35f00, #0287e0);
+  background: red;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -42,6 +42,7 @@ mat-card-title {
 img{
   border-radius: 8px;
 }
+
 // Estilo del formulario
 .example-form {
   width: 100%;
@@ -92,13 +93,6 @@ button.mat-raised-button {
 button.mat-raised-button:hover {
   background-color: #c56901;
   transform: scale(1.05);
-}
-
-// Spinner de carga
-mat-spinner {
-  margin: 20px auto;
-  display: block;
-  color: #ff4081;
 }
 
 

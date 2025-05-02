@@ -1,19 +1,13 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
-import { CookieService } from 'ngx-cookie-service';
 import { CommonService } from 'src/app/services/common.service';
-import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RegisterComponent } from '../../components/register/register.component';
 import { NoUserComponent } from '../../components/no-user/no-user.component';
-import { AddUserComponent } from '../../components/add-user/add-user.component';
-import { Overlay } from '@angular/cdk/overlay';
-import { UsuarioService } from 'src/app/services/usuario.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { Usuario } from '../../../pelis/interfaces/usuario.interface';
+
 
 
 @Component({
@@ -23,21 +17,12 @@ import { Usuario } from '../../../pelis/interfaces/usuario.interface';
 })
 export class LoginPageComponent implements OnInit{
 
-  // @Output() valueChange = new EventEmitter();
-
   loginForm: FormGroup = new FormGroup({});
-
-  // dataSource: MatTableDataSource<Usuario> = new MatTableDataSource();
-
 
   constructor(
     private authService: AuthService,
-    private router: Router,
-    private cookieService: CookieService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private overlay: Overlay,
-    private servicioUsuarios: UsuarioService,
     private commonService: CommonService
   ){}
 
@@ -106,9 +91,9 @@ export class LoginPageComponent implements OnInit{
         return;
       }
 
-      if (RESPONSE.data?.token) {//Si se ha obtenido el token session
+      if (RESPONSE.data?.token) {//Si se ha obtenido el token sesion
         console.log('RESPONSE impreso: ',RESPONSE);
-        console.log('RESPONSE token impreso: ',RESPONSE.data.token);
+        console.log('RESPONSE token_sesion impreso: ',RESPONSE.data.token);
 
         localStorage.setItem('token', RESPONSE.data.token);
         console.log(localStorage.getItem('token'));

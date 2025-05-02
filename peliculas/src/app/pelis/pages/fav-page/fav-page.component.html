@@ -3,9 +3,9 @@
   No hay películas en favoritos.
 </div>
 
-<div class="films-container">
-  <mat-card *ngFor="let film of films" class="col-12 sm:col-4 md:col-3 xl:col-2">
+<div class="grid">
+  <div *ngFor="let film of films">
     <film-card [film]="film"></film-card>
-  </mat-card>
+  </div>
 </div>
 

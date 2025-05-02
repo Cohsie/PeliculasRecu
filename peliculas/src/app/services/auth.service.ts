@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   public checkAuthentication(): Observable<boolean> {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');//Al hacer login el token se obtiene en localStorage y se pone en la base de datos, por lo que la comprobación en el backend va a dar bien
     if(!token){
       return of (false);
     }

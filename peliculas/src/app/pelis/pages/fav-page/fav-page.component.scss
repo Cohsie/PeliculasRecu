@@ -1,0 +1,30 @@
+* {
+  box-sizing: border-box; /* Asegura que los márgenes y rellenos no afecten el tamaño del elemento */
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas en pantallas medianas */
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en pantallas pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr; /* 1 columna en pantallas muy pequeñas */
+  }
+}

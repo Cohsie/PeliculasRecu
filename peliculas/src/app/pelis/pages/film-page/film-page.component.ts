@@ -12,17 +12,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-films-page',
   templateUrl: './film-page.component.html',
-  styleUrls: []
+  styleUrls: ['./film-page.component.scss']
 })
 export class FilmPageComponent implements OnInit {
-  public film?: Film;
+  film?: Film; //Apunte para recordar que las propiedades de clase son public por defecto
   sessionId: string | null = null;
   accountId: string | null = null;
 
   filmImages: any[] = []; // Array para almacenar las imágenes de fondo (backdrops)
 
 
-  public isFavorite: boolean = false;
+  isFavorite: boolean = false;
 
   constructor(private filmService: FilmService,
     private favsService: FavService,

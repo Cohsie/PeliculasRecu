@@ -1,9 +1,9 @@
-<div class="flex flex-column p-2">
+<div>
 
   <h3>Buscador de Películas</h3>
 
   <!-- Buscador de películas -->
-  <mat-form-field>
+  <mat-form-field class="container">
     <mat-label>Busca tu película favorita</mat-label>
     <input type="text"
       matInput [formControl]="searchInput"
@@ -28,7 +28,7 @@
 
 
   <!-- Filtro por géneros -->
-  <mat-form-field>
+  <mat-form-field class="container">
     <mat-label>Selecciona los géneros</mat-label>
     <mat-select (selectionChange)="onCategoryChange($event)" multiple>
       <mat-option *ngFor="let genre of genres" [value]="genre.id">
@@ -38,7 +38,7 @@
   </mat-form-field>
 
   <!-- Filtro de favoritos (SI, NO, TODAS) -->
-  <mat-form-field>
+  <mat-form-field class="container">
     <mat-label>Filtrar por favoritos</mat-label>
     <mat-select [(value)]="favoriteFilter" (selectionChange)="searchFilms()">
       <mat-option value="TODAS">Todas</mat-option>
@@ -47,9 +47,10 @@
     </mat-select>
   </mat-form-field>
 
-  <!-- Mostrar las películas encontradas -->
-  <div *ngIf="films.length > 0" class="grid mb-8">
-    <div *ngFor="let film of films" class="col-12 sm:col-4 md:col-3 xl:col-2">
+  <mat-divider></mat-divider>
+
+  <div *ngIf="films.length > 0" class="grid">
+    <div *ngFor="let film of films">
       <film-card [film]="film"></film-card>
     </div>
   </div>

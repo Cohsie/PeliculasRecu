@@ -3,8 +3,6 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FilmService } from 'src/app/services/film.service';
 import { Film } from '../../interfaces/film.interface';
 import { Router } from '@angular/router';
-import { MaterialModule } from 'src/app/material/material.module';
-import { MatDividerModule } from '@angular/material/divider';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
