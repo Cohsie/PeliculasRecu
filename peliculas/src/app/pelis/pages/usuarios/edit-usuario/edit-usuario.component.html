@@ -1,4 +1,3 @@
-<p>edit-usuario works!</p>
 <div class="container">
   <h3 mat-dialog-title>Editar usuario</h3>
 
@@ -45,8 +44,8 @@
       </div>
 
       <div mat-dialog-actions>
-          <button mat-button id="onSubmit" type="submit"  [disabled]="!usuarioForm.valid" (click)="confirmAdd()">Guardar</button>
-          <button mat-button id="onNoClick" (click)="onNoClick()" tabindex="-1">Cancelar</button>
+          <button mat-button id="onSubmit" type="submit" [disabled]="!usuarioForm.valid" (click)="confirmAdd()">Guardar</button>
+          <button mat-button id="onNoClick" (click)="onNoClick()">Cancelar</button>
       </div>
 
   </form>

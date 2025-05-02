@@ -1,0 +1,25 @@
+h1{
+  text-align: center;
+}
+
+.password {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+mat-form-field.password {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+div[mat-dialog-actions] {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  button.login {
+    margin-left: auto;
+  }
+}

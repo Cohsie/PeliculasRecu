@@ -21,7 +21,7 @@ export class UsuariosComponent implements OnInit {
 
   dataSource: MatTableDataSource<Usuario> = new MatTableDataSource();
                                                                                                   //Uso el campo acciones para poner el edit y el delete
-  displayedColumns: string[] = ['id_usuario', 'usuario', 'nombre_publico', 'rol', 'habilitado', 'acciones'];
+  displayedColumns: string[] = ['id_usuario', 'usuario', 'nombre_publico', 'rol', 'habilitado', 'api_movies', 'acciones'];
 
   constructor(private dialog: MatDialog, private servicioUsuarios: UsuarioService, private overlay: Overlay){}
 
@@ -48,7 +48,7 @@ export class UsuariosComponent implements OnInit {
         this.servicioUsuarios.usuarios.push(RESP.data);
         this.dataSource.data = this.servicioUsuarios.usuarios;
       } else{
-        console.log('Falló algo');
+        console.log('Falló algo', RESP);
       }
     }
   }

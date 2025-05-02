@@ -1,0 +1,9 @@
+div[mat-dialog-actions] {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  button.login {
+    margin-left: auto;
+  }
+}

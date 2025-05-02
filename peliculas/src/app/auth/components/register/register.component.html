@@ -1,11 +1,11 @@
 <h1 mat-dialog-title>Introduce la contraseña</h1>
 <div mat-dialog-content>
-  <mat-form-field class="example-full-width">
+  <mat-form-field class="password">
     <input matInput [(ngModel)]="password" placeholder="contraseña" type="password" required />
   </mat-form-field>
 </div>
 
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancelar</button>
-  <button mat-button (click)="onLogin()">Aceptar</button>
+  <button mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
+  <button class="login" mat-raised-button color="primary" (click)="onLogin()">Aceptar</button>
 </div>

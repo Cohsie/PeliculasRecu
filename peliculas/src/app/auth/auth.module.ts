@@ -10,7 +10,6 @@ import { RegisterComponent } from './components/register/register.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
-import { AddUserComponent } from './components/add-user/add-user.component';
 
 @NgModule({
   declarations: [
@@ -18,8 +17,7 @@ import { AddUserComponent } from './components/add-user/add-user.component';
     LoginPageComponent,
     AuthComponent,
     NoUserComponent,
-    RegisterComponent,
-    AddUserComponent
+    RegisterComponent
   ],
   imports: [
     //CommonModule,

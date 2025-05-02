@@ -21,7 +21,6 @@ export class SearchPageComponent {
   public favoriteFilter: 'SI' | 'NO' | 'TODAS' = 'TODAS';
   private accountId: string = localStorage.getItem('account_id') ?? '';
   private sessionId: string = localStorage.getItem('sessionId') ?? '';
-  //TODO: Apuntes para entender completamente esto
 
 
   ngOnInit(): void {

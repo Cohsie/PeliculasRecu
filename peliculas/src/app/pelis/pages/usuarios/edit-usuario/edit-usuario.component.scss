@@ -1,0 +1,43 @@
+.container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+
+  h3 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .form {
+    margin-bottom: 15px;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  mat-select {
+    width: 100%;
+  }
+
+  mat-checkbox {
+    margin-top: 10px;
+  }
+
+  mat-dialog-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  #onSubmit {
+    background-color: #4caf50;
+    color: white;
+  }
+
+  #onNoClick {
+    color: #f44336;
+  }
+}

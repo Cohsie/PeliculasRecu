@@ -27,7 +27,7 @@
   </mat-autocomplete>
 
 
-  <!-- Filtro por géneros -->
+  <!-- Filtro de selección multiple por géneros -->
   <mat-form-field class="container">
     <mat-label>Selecciona los géneros</mat-label>
     <mat-select (selectionChange)="onCategoryChange($event)" multiple>
@@ -37,7 +37,7 @@
     </mat-select>
   </mat-form-field>
 
-  <!-- Filtro de favoritos (SI, NO, TODAS) -->
+  <!-- Filtro de favoritos -->
   <mat-form-field class="container">
     <mat-label>Filtrar por favoritos</mat-label>
     <mat-select [(value)]="favoriteFilter" (selectionChange)="searchFilms()">
