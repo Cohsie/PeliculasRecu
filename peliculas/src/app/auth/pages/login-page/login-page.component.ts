@@ -119,25 +119,37 @@ export class LoginPageComponent implements OnInit{
         if(!localStorage.getItem('api_movies')){
           this.snackBar.open('Este usuario no tiene datos asignados a una cuenta de TMDB', 'Cerrar', {duration: 5000})
         } else{
-          this.authService.getRequestToken().subscribe({
-            next:(tokenResponse) => {
-              console.log('Token recibido', tokenResponse);
-              const tokenR = tokenResponse.request_token;
-              localStorage.setItem('requestToken', tokenR);
-              console.log('request token antes de validar: ', tokenR);
+          const popup = window.open('https://www.themoviedb.org/logout', 'tmdbAuthPopup', 'width=500,height=600');
 
-              const backURL = encodeURIComponent('http://localhost:4200/films');
-              const redirectURL = `https://www.themoviedb.org/authenticate/${tokenR}?redirect_to=${backURL}`
+          const checkClosed = setInterval(() => {
+            if (popup?.closed) {
+              clearInterval(checkClosed);
+              console.log('El usuario cerró la ventana o terminó el flujo');
 
-              window.location.href = redirectURL;
+              this.authService.getRequestToken().subscribe({
 
-            },
-            error: (error) => {
-              console.error('Error al obtener el request token: ', error);
-              this.snackBar.open('Error al obtener el request token', 'Cerrar', { duration: 5000 });
-              this.authService.doLogout();//Si se quita esto se puede comprobar el error de búsqueda
+                next:(tokenResponse) => {
+                  console.log('Token recibido', tokenResponse);
+                  const tokenR = tokenResponse.request_token;
+                  localStorage.setItem('requestToken', tokenR);
+                  console.log('request token antes de validar: ', tokenR);
+
+                  const backURL = encodeURIComponent('http://localhost:4200/films');
+                  const redirectURL = `https://www.themoviedb.org/authenticate/${tokenR}?redirect_to=${backURL}`
+
+
+                  window.location.href = redirectURL;
+
+                },
+                error: (error) => {
+                  console.error('Error al obtener el request token: ', error);
+                  this.snackBar.open('Error al obtener el request token', 'Cerrar', { duration: 5000 });
+                  this.authService.doLogout();//Si se quita esto se puede comprobar el error de búsqueda
+                }
+              });
             }
-          });
+          }, 500);
+
         }
       } else if (RESPONSE.data?.valido === 0) {//Si no se ha obtenido el token y el usuario no es válido...
         this.snackBar.open('Usuario inhabilitado', 'Cerrar', { duration: 5000 });

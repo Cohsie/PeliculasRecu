@@ -27,12 +27,9 @@ export class ListPageComponent implements OnInit {
           localStorage.setItem('sessionId', sessionId);
 
           // Ahora que tenemos el sessionId, cargamos las películas
+          this.verificarAccountId(sessionId);
           this.cargarPeliculas();
-          console.log('api_movies: ', localStorage.getItem('api_movies'));
-          console.log('usuario: ',localStorage.getItem('usuario'));
-          console.log('token: ',localStorage.getItem('token'));
-          console.log('sessionId: ',localStorage.getItem('sessionId'));
-          console.log('Request token:', localStorage.getItem('requestToken'));
+
 
         },
         error: (error) => {
@@ -43,10 +40,9 @@ export class ListPageComponent implements OnInit {
         }
       });
     } else {
-      // Si ya tenemos el sessionId, simplemente cargamos las películas
+      this.verificarAccountId(sessionId);
       this.cargarPeliculas();
     }
-    console.log(localStorage.getItem('sessionId'));
   }
 
   // Método para cargar las películas
@@ -54,6 +50,31 @@ export class ListPageComponent implements OnInit {
     this.filmService.getTopRatedFilms().subscribe((data) => {
       this.films = data;
       console.log(this.films);
+    });
+  }
+
+  private verificarAccountId(sessionId: string): void {
+
+
+    this.authService.getAccountId(sessionId).subscribe({
+      next: (response) => {
+        const accountIdAPI = response.id;
+        const accountId = localStorage.getItem('account_id');
+
+        if (accountIdAPI && accountId !== accountIdAPI.toString()) {
+          console.warn('Account ID distinto. Cerrando sesión.');
+          console.log(accountId);
+          console.log(accountIdAPI);
+          this.authService.doLogout();
+          this.router.navigate(['/auth']);
+        }
+      },
+      error: (error) => {
+        console.error('Error al obtener el Account ID:', error);
+
+        this.authService.doLogout();
+        this.router.navigate(['/auth']);
+      }
     });
   }
 

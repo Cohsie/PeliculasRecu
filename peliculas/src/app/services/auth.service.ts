@@ -23,23 +23,36 @@ export class AuthService {
     return this.http.post<ApiResponse>(`${URL_API}/login.php`, body);
   }
 
+  logoutTMDB(){
+    const apiKey = localStorage.getItem('api_movies') || ''; // Obtener el Bearer token
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.get<any>(
+      `https://www.themoviedb.org/logout`
+    ).toPromise();
+  }
+
   public checkAuthentication(): Observable<boolean> {
     const token = localStorage.getItem('token');//Al hacer login el token se obtiene en localStorage y se pone en la base de datos, por lo que la comprobación en el backend va a dar bien
     if(!token){
       return of (false);
     }
-    //return of (true);
-    return this.http.post<ApiResponse>(`${URL_API}/check_password.php`, {token}, {headers: this.commonService.headers})
-      .pipe(
-          map(response => {
-            console.log('Respuesta del backend:', response);
-            return response.ok;
-          }),
-          catchError((error) => {
-            console.error('Error de solicitud:', error);
-            return of(false);
-          })
-      );
+    return of (true);
+    // return this.http.post<ApiResponse>(`${URL_API}/check_password.php`, {token}, {headers: this.commonService.headers})
+    //   .pipe(
+    //       map(response => {
+    //         console.log('Respuesta del backend:', response);
+    //         return response.ok;
+    //       }),
+    //       catchError((error) => {
+    //         console.error('Error de solicitud:', error);
+    //         return of(false);
+    //       })
+    //   );
   }
 
   public checkUser(usuario: String): Observable<boolean>{
@@ -111,6 +124,20 @@ export class AuthService {
     return this.http.post<any>(
       `https://api.themoviedb.org/3/authentication/session/new`, // URL sin la API Key en la URL
       { request_token: requestToken }, // El request_token se manda en el cuerpo
+      { headers }
+    );
+  }
+
+  getAccountId(sessionId: string): Observable<any> {
+    const apiKey = localStorage.getItem('api_movies') || '';
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.get<any>(
+      `https://api.themoviedb.org/3/account?session_id=${sessionId}`,
       { headers }
     );
   }

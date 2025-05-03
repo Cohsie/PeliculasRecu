@@ -28,8 +28,8 @@ export class AddUsuarioComponent {
       id_rol: new FormControl(null, [Validators.required]),
       nombre_publico: new FormControl(null),
       observaciones: new FormControl(null),
-      api_movies: new FormControl(null),
-      account_id: new FormControl(null)
+      api_movies: new FormControl(null, [Validators.required]),
+      account_id: new FormControl(null, [Validators.required])
     });
 
     this.getRoles();
