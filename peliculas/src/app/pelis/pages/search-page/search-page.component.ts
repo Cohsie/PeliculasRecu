@@ -24,8 +24,6 @@ export class SearchPageComponent {
 
 
   ngOnInit(): void {
-    const response_token = localStorage.getItem('requestToken');
-    const sessionId = localStorage.getItem('sessionId');
     // Cargar géneros desde el servicio
     this.filmService.getCategories().subscribe(categories => {
       this.genres = categories;
@@ -37,7 +35,7 @@ export class SearchPageComponent {
   public searchFilms(): void {
     //const sessionId = localStorage.getItem('session_id')
     const value: string = this.searchInput.value || '';
-    console.log(localStorage.getItem('sessionId'));
+    //console.log(localStorage.getItem('sessionId'));
     this.filmService.findFilms(value, this.sessionId, this.accountId, this.favoriteFilter, this.selectedGenres)
       .subscribe({
         next: (films) => {

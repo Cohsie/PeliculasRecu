@@ -5,7 +5,6 @@ import { CommonService } from './common.service';
 import { map, Observable, of, catchError } from 'rxjs';
 import { ApiResponse } from '../auth/interfaces/api-response';
 import { URL_API } from '../environments/environment';
-import { Usuario } from '../pelis/interfaces/usuario.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +23,7 @@ export class AuthService {
   }
 
   logoutTMDB(){
-    const apiKey = localStorage.getItem('api_movies') || ''; // Obtener el Bearer token
+    const apiKey = localStorage.getItem('api_movies'); // Obtener el Bearer token
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${apiKey}`,
@@ -122,8 +121,8 @@ export class AuthService {
     });
 
     return this.http.post<any>(
-      `https://api.themoviedb.org/3/authentication/session/new`, // URL sin la API Key en la URL
-      { request_token: requestToken }, // El request_token se manda en el cuerpo
+      `https://api.themoviedb.org/3/authentication/session/new`,
+      { request_token: requestToken },
       { headers }
     );
   }
@@ -136,7 +135,7 @@ export class AuthService {
       'Content-Type': 'application/json'
     });
 
-    return this.http.get<any>(
+    return this.http.get<any>(                //Deduce el account id a partir del sessionId
       `https://api.themoviedb.org/3/account?session_id=${sessionId}`,
       { headers }
     );

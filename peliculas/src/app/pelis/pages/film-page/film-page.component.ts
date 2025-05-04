@@ -15,14 +15,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./film-page.component.scss']
 })
 export class FilmPageComponent implements OnInit {
-  film?: Film; //Apunte para recordar que las propiedades de clase son public por defecto
-  sessionId: string | null = null;
-  accountId: string | null = null;
+  public film?: Film; //Apunte para recordar que las propiedades de clase son public por defecto
+  private accountId: string = localStorage.getItem('account_id') ?? '';
+  private sessionId: string = localStorage.getItem('sessionId') ?? '';
 
-  filmImages: any[] = []; // Array para almacenar las imágenes de fondo (backdrops)
+  public filmImages: any[] = []; // Array para almacenar las imágenes de fondo (backdrops)
 
 
-  isFavorite: boolean = false;
+  public isFavorite: boolean = false;
 
   constructor(private filmService: FilmService,
     private favsService: FavService,
@@ -32,8 +32,7 @@ export class FilmPageComponent implements OnInit {
     private snackBar: MatSnackBar
   ){}
   ngOnInit(): void {
-    this.sessionId = localStorage.getItem('sessionId');
-    this.accountId = localStorage.getItem('account_id');
+
     console.log('account_id del usuario',this.accountId);
 
     this.activatedRoute.params//emite los parametros de la ruta, en este caso los ID

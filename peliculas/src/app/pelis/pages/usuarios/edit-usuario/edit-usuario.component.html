@@ -44,8 +44,8 @@
       </div>
 
       <div mat-dialog-actions>
-          <button mat-button id="onSubmit" type="submit" [disabled]="!usuarioForm.valid" (click)="confirmAdd()">Guardar</button>
-          <button mat-button id="onNoClick" (click)="onNoClick()">Cancelar</button>
+          <button mat-button id="onSubmit" mat-raised-button color="primary" type="submit" [disabled]="!usuarioForm.valid" (click)="confirmAdd()">Guardar</button>
+          <button mat-button id="onNoClick" mat-raised-button color="warn" (click)="onNoClick()">Cancelar</button>
       </div>
 
   </form>
