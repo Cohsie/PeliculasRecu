@@ -21,7 +21,7 @@ export class UsuariosComponent implements OnInit {
 
   dataSource: MatTableDataSource<Usuario> = new MatTableDataSource();
                                                                                                   //Uso el campo acciones para poner el edit y el delete
-  displayedColumns: string[] = ['id_usuario', 'usuario', 'nombre_publico', 'rol', 'habilitado', 'api_movies', 'acciones'];
+  displayedColumns: string[] = ['id_usuario', 'usuario', 'nombre_publico', 'rol', 'habilitado', 'api_movies', 'account_id', 'acciones'];
 
   constructor(private dialog: MatDialog, private servicioUsuarios: UsuarioService, private overlay: Overlay){}
 
@@ -57,13 +57,14 @@ export class UsuariosComponent implements OnInit {
     const dialogRef = this.dialog.open(EditUsuarioComponent, {
       data: usuario,
       width: '500px',
-      scrollStrategy: this.overlay.scrollStrategies.noop()
+      //scrollStrategy: this.overlay.scrollStrategies.noop()
     });
     const RESP = await dialogRef.afterClosed().toPromise();
     if (RESP) {
       if (RESP.ok) {
+        console.log(RESP);
         this.servicioUsuarios.updateUsuario(RESP.data);
-        this.dataSource.data = [...this.servicioUsuarios.usuarios];
+        this.dataSource.data = this.servicioUsuarios.usuarios;
       }
     }
   }

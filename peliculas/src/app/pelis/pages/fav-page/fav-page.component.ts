@@ -9,16 +9,15 @@ import { Film } from '../../interfaces/film.interface';
 })
 export class FavPageComponent implements OnInit {
   films: Film[] = [];
-  sessionId: string | null = null;
-  accountId: string | null = null;
+  private accountId: string = localStorage.getItem('account_id') ?? '';
+  private sessionId: string = localStorage.getItem('sessionId') ?? '';
 
   constructor(
     private favService: FavService,
   ) {}
 
   ngOnInit(): void {
-    this.sessionId = localStorage.getItem('sessionId');
-    this.accountId = localStorage.getItem('account_id');
+
     console.log(this.accountId);
     console.log(this.films);
 

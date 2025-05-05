@@ -33,7 +33,10 @@ export class EditUsuarioComponent {
       password: new FormControl(''),
       habilitado: new FormControl(Number(this.usuario.habilitado) === 1, [Validators.required]),
       id_rol: new FormControl(this.usuario.id_rol, [Validators.required]),
-      observaciones: new FormControl(this.usuario.observaciones)
+      observaciones: new FormControl(this.usuario.observaciones),
+      api_movies: new FormControl(this.usuario.api_movies, [Validators.required]),
+      account_id: new FormControl(this.usuario.account_id, [Validators.required]),
+
     });
 
     this.getRoles();

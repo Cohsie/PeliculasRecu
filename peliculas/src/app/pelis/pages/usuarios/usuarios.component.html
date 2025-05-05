@@ -43,6 +43,11 @@
       <mat-cell *matCellDef="let usuario"> {{ usuario.api_movies }} </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="account_id">
+      <mat-header-cell *matHeaderCellDef> ID de cuenta de TMDB </mat-header-cell>
+      <mat-cell *matCellDef="let usuario"> {{ usuario.account_id }} </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="acciones">
       <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
       <mat-cell *matCellDef="let usuario">

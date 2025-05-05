@@ -52,14 +52,14 @@ export class UsuarioService {
 
   updateUsuario(usuario: Usuario) {
     let index = null;
-    this.usuarios.filter((usuarioFilter, indexFilter) => {
-      if (usuario.id_usuario === usuarioFilter.id_usuario) {
-        index = indexFilter;
+    this.usuarios.filter((usuarioF, indexF) => {
+      if (usuario.id_usuario === usuarioF.id_usuario) {
+        index = indexF;
       }
     });
 
-    if (index != null) {
-      this.usuarios[index] = { ...usuario };
+    if (index) {
+      this.usuarios[index] = usuario;
     }
   }
 
@@ -71,16 +71,16 @@ export class UsuarioService {
   }
 
   //Métodos que se usarán para mostrar las películas utilizando la API key del usuario
-  getUsuarioActual(): Usuario | null {
-    console.log('Usuarios cargados:', this.usuarios);
+  // getUsuarioActual(): Usuario | null {
+  //   console.log('Usuarios cargados:', this.usuarios);
 
-    const idUsuario = localStorage.getItem('id_usuario');
-    console.log('LocalStorage id_usuario:', idUsuario);
-    if (!idUsuario) {
-      return null;
-    }
-    return this.usuarios.find(usuario => usuario.id_usuario.toString() === idUsuario) || null;
-  }
+  //   const idUsuario = localStorage.getItem('id_usuario');
+  //   console.log('LocalStorage id_usuario:', idUsuario);
+  //   if (!idUsuario) {
+  //     return null;
+  //   }
+  //   return this.usuarios.find(usuario => usuario.id_usuario.toString() === idUsuario) || null;
+  // }
 
   // getApiKey(): string {
   //   console.log(this.getUsuarioActual);

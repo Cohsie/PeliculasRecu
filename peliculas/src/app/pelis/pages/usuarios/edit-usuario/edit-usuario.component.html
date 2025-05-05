@@ -4,24 +4,28 @@
   <form class="mat-dialog-content" [formGroup]="usuarioForm">
 
       <div class="form">
+          <p><b>Correo electrónico</b></p>
           <mat-form-field color="accent">
               <input matInput placeholder="Correo electrónico" formControlName="usuario" name="usuario" required>
           </mat-form-field>
       </div>
 
       <div class="form">
+        <p><b>Nombre del usuario</b></p>
           <mat-form-field color="accent">
               <input matInput placeholder="Nombre público" formControlName="nombre_publico" name="nombre_publico" required>
           </mat-form-field>
       </div>
 
       <div class="form">
+        <p><b>Cambiar contraseña</b></p>
           <mat-form-field color="accent">
               <input matInput type="password" placeholder="Cambiar contraseña" formControlName="password" name="password">
           </mat-form-field>
       </div>
 
       <div class="form">
+        <p><b>Rol del usuario</b></p>
           <mat-form-field>
               <mat-label>Rol</mat-label>
               <mat-select formControlName="id_rol">
@@ -37,10 +41,26 @@
       </div>
 
       <div class="form">
+        <p><b>Observaciones</b></p>
           <mat-form-field color="accent">
               <textarea matInput placeholder="Observaciones" formControlName="observaciones"
                   name="observaciones"></textarea>
           </mat-form-field>
+      </div>
+
+      <div class="form">
+        <p><b>API bearer token de tu cuenta TMDB</b></p>
+        <mat-form-field color="accent">
+            <input matInput placeholder="API bearer token" formControlName="api_movies" name="api_movies" required>
+        </mat-form-field>
+      </div>
+
+      <div class="form">
+        <p><b>ID de tu cuenta de TMDB</b></p>
+
+        <mat-form-field color="accent">
+            <input matInput placeholder="ID de tu cuenta de TMDB" formControlName="account_id" name="account_id" required>
+        </mat-form-field>
       </div>
 
       <div mat-dialog-actions>

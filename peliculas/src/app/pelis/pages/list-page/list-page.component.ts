@@ -34,7 +34,6 @@ export class ListPageComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error al obtener el Session ID:', error);
-          // 🔐 Forzar logout si el token no es válido (posible denegación)
           this.authService.doLogout();
           this.router.navigate(['/auth']);
         }
