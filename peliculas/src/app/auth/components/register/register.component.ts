@@ -12,15 +12,15 @@ export class RegisterComponent {
 
   constructor(
     public dialogRef: MatDialogRef<RegisterComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any //Creo que es para meter los datos de la contraseña en este dialog
+    @Inject(MAT_DIALOG_DATA) public data: any //Para que el dialog pueda recibir datos
   ){}
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close();//Cierra el dialog sin más
   }
 
   onLogin(){
-    this.dialogRef.close(this.password);
+    this.dialogRef.close(this.password);//Pasa el dato de la contraseña
   }
 
 }

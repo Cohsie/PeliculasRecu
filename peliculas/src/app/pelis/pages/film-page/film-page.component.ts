@@ -57,16 +57,8 @@ export class FilmPageComponent implements OnInit {
 
   checkIfFavorite(filmId: number): void {
     if (this.sessionId && this.accountId) {
-      console.log("ID de la película:", filmId);
-      console.log("account id:", this.accountId);
-      console.log("session id:", this.sessionId);
       this.favsService.getAllFavs(this.sessionId, this.accountId).subscribe(//Primero obtiene todos los favoritos
         (favorites: any[]) => {
-          // console.log("Esto es favorites:", favorites);
-          // console.log("ID de la película:", filmId);
-          // console.log("account id:", this.accountId);
-          // console.log("session id:", this.sessionId);
-
           if (Array.isArray(favorites)) {
             const isFavorite = favorites.some(fav => fav.id === filmId);
             this.isFavorite = isFavorite;
@@ -94,7 +86,9 @@ export class FilmPageComponent implements OnInit {
         () => {
           this.isFavorite = true;
           console.log('Película añadida a favoritos');
-          this.showSnackbar(`${filmTitle} ha sido añadida a favoritos`);
+
+          this.snackBar.open(`${filmTitle} ha sido añadida a favoritos`, 'Cerrar', { duration: 5000 });
+
           this.checkIfFavorite(filmId);
         },
         error => {
@@ -116,17 +110,18 @@ export class FilmPageComponent implements OnInit {
         const filmId = this.film.id;
         const filmTitle = this.film.title;
 
-        this.favsService.removeFavorite(this.sessionId, this.accountId, filmId).subscribe(
-          () => {
+        this.favsService.removeFavorite(this.sessionId, this.accountId, filmId).subscribe({
+          next: () => {
             this.isFavorite = false;
             console.log('Película eliminada de favoritos');
             this.checkIfFavorite(filmId);
-            this.showSnackbar(`${filmTitle} ha sido eliminada de favoritos`);
+            this.snackBar.open(`${filmTitle} ha sido eliminada de favoritos`, 'Cerrar', { duration: 5000 });
+
           },
-          error => {
+          error: (error) => {
             console.error('Error al eliminar de favoritos:', error);
           }
-        );
+      });
       }
     })
   }
@@ -135,16 +130,8 @@ export class FilmPageComponent implements OnInit {
   loadImages(filmId: number): void {
     this.filmService.getFilmImages(filmId).subscribe(images => {
       this.filmImages = images.slice(0, 5); // Se mostrarán 5 imágenes
-      this.filmImages.push({ file_path: '' });
+      this.filmImages.push({ file_path: '' }); // y una última sin file_path para que pueda mostrarse la imagen de no disponible
       console.log('Imágenes:', this.filmImages);
-    });
-  }
-
-  showSnackbar(message: string): void {
-    this.snackBar.open(message, 'Cerrar', {
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom'
     });
   }
 

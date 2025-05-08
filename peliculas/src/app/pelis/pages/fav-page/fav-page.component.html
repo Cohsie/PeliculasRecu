@@ -1,9 +1,8 @@
-<!-- fav-page.component.html -->
-<div *ngIf="films.length === 0" class="no-favs">
+<div *ngIf="films.length === 0">
   No hay películas en favoritos.
 </div>
 
-<div class="grid">
+<div *ngIf="films.length > 0" class="grid">
   <div *ngFor="let film of films">
     <film-card [film]="film"></film-card>
   </div>

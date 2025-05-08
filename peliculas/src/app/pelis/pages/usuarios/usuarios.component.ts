@@ -57,7 +57,6 @@ export class UsuariosComponent implements OnInit {
     const dialogRef = this.dialog.open(EditUsuarioComponent, {
       data: usuario,
       width: '500px',
-      //scrollStrategy: this.overlay.scrollStrategies.noop()
     });
     const RESP = await dialogRef.afterClosed().toPromise();
     if (RESP) {
@@ -86,7 +85,7 @@ export class UsuariosComponent implements OnInit {
     this.servicioUsuarios.actualizarHabilitado(usuario.id_usuario, nuevoValor)
       .subscribe({
         next: () => {
-          usuario.habilitado = nuevoValor;  // Actualizas el valor en el objeto usuario
+          usuario.habilitado = nuevoValor; //Actualizo solo el valor "habilitado" del usuario
         },
         error: err => {
           console.error('Error al actualizar habilitado', err);

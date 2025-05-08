@@ -1,5 +1,4 @@
 <div>
-
   <h3>Buscador de Películas</h3>
 
   <!-- Buscador de películas -->
@@ -30,7 +29,7 @@
   <!-- Filtro de selección multiple por géneros -->
   <mat-form-field class="container">
     <mat-label>Selecciona los géneros</mat-label>
-    <mat-select (selectionChange)="onCategoryChange($event)" multiple>
+    <mat-select (selectionChange)="onCategoryChange($event)" multiple><!--Cada vez que se cambian los géneros se llama al buscador de películas-->
       <mat-option *ngFor="let genre of genres" [value]="genre.id">
         {{ genre.name }}
       </mat-option>

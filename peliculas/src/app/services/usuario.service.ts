@@ -58,7 +58,7 @@ export class UsuarioService {
       }
     });
 
-    if (index) {
+    if (index !== null) {
       this.usuarios[index] = usuario;
     }
   }

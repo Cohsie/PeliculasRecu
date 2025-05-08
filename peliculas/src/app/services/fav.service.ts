@@ -20,7 +20,7 @@ export class FavService {
       console.log('AccountId endpoint:', accountId);
       console.log(`sessionId: ${sessionId} accountId: ${accountId}`);
 
-      const accessToken = localStorage.getItem('api_movies') || '';
+      const accessToken = localStorage.getItem('api_movies');
       const url = `https://api.themoviedb.org/3/account/${accountId}/favorite/movies`;
 
       const headers = new HttpHeaders({
@@ -44,7 +44,7 @@ export class FavService {
 
     // Añadir una película a favoritos en TMDB
     addFavorite(sessionId: string, accountId: string, filmId: number): Observable<any> {
-      const accessToken = localStorage.getItem('api_movies') || '';
+      const accessToken = localStorage.getItem('api_movies');
       const url = `https://api.themoviedb.org/3/account/${accountId}/favorite`;
 
       const headers = new HttpHeaders({
@@ -71,7 +71,7 @@ export class FavService {
 
     // Eliminar una película de favoritos en TMDB
     removeFavorite(sessionId: string, accountId: string, filmId: number): Observable<any> {
-      const accessToken = localStorage.getItem('api_movies') || '';
+      const accessToken = localStorage.getItem('api_movies');
       const url = `https://api.themoviedb.org/3/account/${accountId}/favorite`;
 
       const headers = new HttpHeaders({

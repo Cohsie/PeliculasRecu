@@ -6,7 +6,7 @@
     </button>
   </div>
 
-  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <mat-table [dataSource]="dataSource">
 
     <ng-container matColumnDef="id_usuario">
       <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
@@ -38,7 +38,7 @@
       </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="api_movies">
+    <ng-container matColumnDef="api_movies"><!--Debe coincidir con un valor de displayedColumns en el ts-->
       <mat-header-cell *matHeaderCellDef> API Berarer de TMDB </mat-header-cell>
       <mat-cell *matCellDef="let usuario"> {{ usuario.api_movies }} </mat-cell>
     </ng-container>

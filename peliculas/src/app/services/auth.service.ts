@@ -22,19 +22,6 @@ export class AuthService {
     return this.http.post<ApiResponse>(`${URL_API}/login.php`, body);
   }
 
-  logoutTMDB(){
-    const apiKey = localStorage.getItem('api_movies'); // Obtener el Bearer token
-
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${apiKey}`,
-      'Content-Type': 'application/json'
-    });
-
-    return this.http.get<any>(
-      `https://www.themoviedb.org/logout`
-    ).toPromise();
-  }
-
   public checkAuthentication(): Observable<boolean> {
     const token = localStorage.getItem('token');//Al hacer login el token se obtiene en localStorage y se pone en la base de datos, por lo que la comprobación en el backend va a dar bien
     if(!token){
@@ -97,7 +84,7 @@ export class AuthService {
 
   //Para obtener el request token
   getRequestToken(): Observable<any> {
-    const apiKey = localStorage.getItem('api_movies') || ''; // Obtener el Bearer token
+    const apiKey = localStorage.getItem('api_movies'); // Obtener el Bearer token
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${apiKey}`,
@@ -113,7 +100,7 @@ export class AuthService {
   //Para obtener el session id una vez obtenido el request token
   getSessionId(): Observable<any> {
     const requestToken = localStorage.getItem('requestToken'); // Obtener el request token
-    const apiKey = localStorage.getItem('api_movies') || ''; // Obtener el Bearer token
+    const apiKey = localStorage.getItem('api_movies'); // Obtener el Bearer token
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${apiKey}`,
@@ -128,7 +115,7 @@ export class AuthService {
   }
 
   getAccountId(sessionId: string): Observable<any> {
-    const apiKey = localStorage.getItem('api_movies') || '';
+    const apiKey = localStorage.getItem('api_movies');
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${apiKey}`,

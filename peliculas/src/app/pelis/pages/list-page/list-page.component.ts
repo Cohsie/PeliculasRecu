@@ -27,8 +27,8 @@ export class ListPageComponent implements OnInit {
           localStorage.setItem('sessionId', sessionId);
 
           // Ahora que tenemos el sessionId, cargamos las películas
-          this.verificarAccountId(sessionId);
-          this.cargarPeliculas();
+          this.verificarAccountId(sessionId);//Verificamos el account_id por si el usuario ha iniciado sesión con su cuenta de la BD
+          this.cargarPeliculas();            // pero con una cuenta de TMDB que no sea la suya
 
 
         },
@@ -53,7 +53,6 @@ export class ListPageComponent implements OnInit {
   }
 
   private verificarAccountId(sessionId: string): void {
-
 
     this.authService.getAccountId(sessionId).subscribe({
       next: (response) => {

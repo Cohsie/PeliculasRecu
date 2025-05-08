@@ -16,8 +16,6 @@ export class DeleteUsuarioComponent {
     private snackBar: MatSnackBar
 ) { }
 
-//No he puesto ngOnInit porque parece que no hace falta
-
 async deleteUser() {
   try {
     const RESP = await this.servicioUsuario.deleteUsuario(this.usuario).toPromise();

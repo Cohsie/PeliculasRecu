@@ -39,7 +39,7 @@ export class SearchPageComponent {
     this.filmService.findFilms(value, this.sessionId, this.accountId, this.favoriteFilter, this.selectedGenres)
       .subscribe({
         next: (films) => {
-          this.films = films;
+          this.films = films;//Mete los datos en la lista de películas
           console.log('Películas encontradas:', films);
         },
         error: (err: HttpErrorResponse) => {
@@ -68,6 +68,6 @@ export class SearchPageComponent {
   public onCategoryChange(event: any): void {
     this.selectedGenres = event.value;
     console.log('Géneros seleccionados:', this.selectedGenres); // Verifica los géneros seleccionados
-    this.searchFilms();
+    this.searchFilms();//Cada vez que el usuario cambia los géneros se actualizan los resultados de búsqueda, por eso está bien que aquí se haga la llamada
   }
 }
